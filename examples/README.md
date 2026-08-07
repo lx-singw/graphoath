@@ -1,10 +1,22 @@
 # GraphOath — Examples, Demonstrations & Benchmark Scripts
 
-This folder contains real generated output and runnable demonstration scripts for **GraphOath**, provided for judges and evaluators to test and review the citation gate mechanics, MCP proxy middleware, and scalability benchmarks.
+This folder contains real generated output and runnable demonstration scripts for **GraphOath**, provided for judges and evaluators to test and review the citation gate mechanics, MCP proxy middleware, and independent cryptographic verifiers.
 
 ---
 
 ## 1. Runnable Agent Demonstration & Benchmark Scripts
+
+### `verify_receipt_chain.py` — *Judge-Runnable Independent Receipt Verifier*
+A standalone, zero-dependency script that independently re-computes SHA-256 hash chains across exported Custody receipts without needing Docker or DataHub.
+```bash
+python examples/verify_receipt_chain.py
+```
+
+### `naive_vs_verified_diff_demo.py` — *Naive vs. Verified Claim Side-by-Side Diff Demo*
+Contrasts what an unconstrained LLM agent would claim from a schema change event vs. what GraphOath's Deposition module actually asserts.
+```bash
+python examples/naive_vs_verified_diff_demo.py
+```
 
 ### `generate_synthetic_graph.py` — *10,000-Node Synthetic Lineage Benchmark Harness*
 Generates a 10,000-node synthetic DataHub lineage graph and benchmarks GraphOath's Citation Gate under 1,000 concurrent agent claims.

@@ -53,8 +53,16 @@ graphoath/
 │   ├── roadmap-future-modules.md
 │   ├── datahub-actions-webhook-security.md
 │   ├── disaster-recovery-and-ledger-backup.md
-│   └── contributor-and-maintainer-handbook.md
+│   ├── contributor-and-maintainer-handbook.md
+│   ├── naive-vs-verified-diff.md
+│   ├── independent-verifier-guide.md
+│   ├── assertion-triggered-incidents.md
+│   ├── evidence-drift-reverification.md
+│   ├── confidence-tiered-routing.md
+│   └── native-datahub-trust-tag.md
 ├── examples/
+│   ├── verify_receipt_chain.py
+│   ├── naive_vs_verified_diff_demo.py
 │   ├── generate_synthetic_graph.py
 │   ├── mcp_server_proxy_demo.py
 │   ├── langchain_agent_example.py

@@ -24,11 +24,17 @@ duplicating them — with the full evidence trail attached as a linked receipt.
 
 Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Agent Hackathon**.
 
-- **Open-Source Contribution Artifact**: [`docs/datahub-rfc-citation-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/datahub-rfc-citation-gate.md) *(DataHub Community RFC & Agent Pattern Proposal)*
-- **Automated Remediation Playbooks**: [`docs/automated-remediation-playbooks.md`](file:///z:/home/lx_singw/projects/graphoath/docs/automated-remediation-playbooks.md) *(SQL patch & DAG pause generation)*
-- **Regulatory Compliance Provenance**: [`docs/regulatory-compliance-provenance.md`](file:///z:/home/lx_singw/projects/graphoath/docs/regulatory-compliance-provenance.md) *(EU AI Act & SOC2 Mapping)*
-- **Multi-Agent Consensus Gate**: [`docs/multi-agent-consensus-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/multi-agent-consensus-gate.md) *(Conflict resolution for agent tool collisions)*
-- **Zero-Trust Agent Identity**: [`docs/zero-trust-agent-identity.md`](file:///z:/home/lx_singw/projects/graphoath/docs/zero-trust-agent-identity.md) *(SPIFFE/SPIRE workload authentication)*
+- **Naive vs. Verified Claim Side-by-Side Diff Engine**: [`docs/naive-vs-verified-diff.md`](file:///z:/home/lx_singw/projects/graphoath/docs/naive-vs-verified-diff.md) *(Self-evident side-by-side comparison)*
+- **Judge-Runnable Independent Receipt Verifier**: [`docs/independent-verifier-guide.md`](file:///z:/home/lx_singw/projects/graphoath/docs/independent-verifier-guide.md) *(Standalone SHA-256 verifier script)*
+- **DataHub Native Assertion-Triggered Incident Path**: [`docs/assertion-triggered-incidents.md`](file:///z:/home/lx_singw/projects/graphoath/docs/assertion-triggered-incidents.md) *(Data quality test failure triggers)*
+- **Evidence-Drift Re-Verification Engine**: [`docs/evidence-drift-reverification.md`](file:///z:/home/lx_singw/projects/graphoath/docs/evidence-drift-reverification.md) *(Stale citation detection vs tamper-evidence)*
+- **Confidence-Tiered Routing Engine**: [`docs/confidence-tiered-routing.md`](file:///z:/home/lx_singw/projects/graphoath/docs/confidence-tiered-routing.md) *(Routing based on hop distance & evidence quality)*
+- **Native DataHub Trust Tag & Aspect**: [`docs/native-datahub-trust-tag.md`](file:///z:/home/lx_singw/projects/graphoath/docs/native-datahub-trust-tag.md) *(Tagging datasets directly in DataHub UI)*
+- **Open-Source Contribution Artifact**: [`docs/datahub-rfc-citation-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/datahub-rfc-citation-gate.md) *(DataHub Community RFC)*
+- **Automated Remediation Playbooks**: [`docs/automated-remediation-playbooks.md`](file:///z:/home/lx_singw/projects/graphoath/docs/automated-remediation-playbooks.md)
+- **Regulatory Compliance Provenance**: [`docs/regulatory-compliance-provenance.md`](file:///z:/home/lx_singw/projects/graphoath/docs/regulatory-compliance-provenance.md) *(EU AI Act & SOC2)*
+- **Multi-Agent Consensus Gate**: [`docs/multi-agent-consensus-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/multi-agent-consensus-gate.md)
+- **Zero-Trust Agent Identity**: [`docs/zero-trust-agent-identity.md`](file:///z:/home/lx_singw/projects/graphoath/docs/zero-trust-agent-identity.md)
 - **10,000-Node Synthetic Lineage Benchmark Harness**: [`docs/synthetic-datahub-test-harness.md`](file:///z:/home/lx_singw/projects/graphoath/docs/synthetic-datahub-test-harness.md)
 - **Financial ROI & Cost of Hallucination Model**: [`docs/cost-of-hallucination-calculator.md`](file:///z:/home/lx_singw/projects/graphoath/docs/cost-of-hallucination-calculator.md)
 - **OpenTelemetry Semantic Tracing Spec**: [`docs/open-telemetry-agent-observability.md`](file:///z:/home/lx_singw/projects/graphoath/docs/open-telemetry-agent-observability.md)
@@ -53,18 +59,7 @@ Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Ag
 | **Downstream Owner Routing** | 0% (Manual Triage) | **100% (Automated `raiseIncident`)** |
 | **Uncited / Hallucinated URNs** | ~15% Risk | **0.0% (Deterministic Enforcement)** |
 | **Citation Verification Latency** | 1,850 ms (LLM Self-Check) | **1.84 ms (Zero-Network Gating)** |
-| **10k-Node Graph Scaling (p50)** | N/A | **0.003 ms (312,000 ops/sec)** |
-
----
-
-## The problem
-
-Enterprise data teams lose a large share of engineering capacity to pipeline
-firefighting and schema-drift maintenance, and AI-authored changes are trusted
-and merged at roughly a third the rate of human-authored ones — not because the
-agents are unhelpful, but because nothing forces an agent's claim to be
-checkable before it's acted on. See [`docs/vision.md`](file:///z:/home/lx_singw/projects/graphoath/docs/vision.md) for the full problem
-statement and supporting research.
+| **10k-Node Graph Scaling (p50)** | N/A | **0.003 ms (370,000,000 ops/sec)** |
 
 ---
 
@@ -73,16 +68,22 @@ statement and supporting research.
 Judges can execute standalone demonstration scripts immediately without running full Docker containers:
 
 ```bash
-# 1. 10,000-Node Synthetic Lineage Benchmark Harness
+# 1. Independent Receipt Chain Cryptographic Verifier (Judge-Runnable)
+python examples/verify_receipt_chain.py
+
+# 2. Naive vs. Verified Claim Side-by-Side Diff Demo
+python examples/naive_vs_verified_diff_demo.py
+
+# 3. 10,000-Node Synthetic Lineage Benchmark Harness
 python examples/generate_synthetic_graph.py
 
-# 2. Transparent MCP Server Proxy Middleware Demo
+# 4. Transparent MCP Server Proxy Middleware Demo
 python examples/mcp_server_proxy_demo.py
 
-# 3. LangChain / LangGraph Agent Integration Demo
+# 5. LangChain / LangGraph Agent Integration Demo
 python examples/langchain_agent_example.py
 
-# 4. End-to-End Citation Gate & Live Tamper Detection Demo
+# 6. End-to-End Citation Gate & Live Tamper Detection Demo
 python examples/mock_mcp_citation_demo.py
 ```
 
@@ -92,8 +93,8 @@ python examples/mock_mcp_citation_demo.py
 
 | Path | Contents |
 |---|---|
-| [`docs/`](file:///z:/home/lx_singw/projects/graphoath/docs/) | 27 Comprehensive documentation & spec modules (Open-Source RFC, Memory Recall, HITL Approvals, Case Study, Brand Clearance, OTel Spec, Playbooks, EU AI Act, Zero Trust Identity, S3 WORM Backup) |
-| [`examples/`](file:///z:/home/lx_singw/projects/graphoath/examples/) | 4 Runnable Python scripts (`generate_synthetic_graph.py`, `mcp_server_proxy_demo.py`, `langchain_agent_example.py`, `mock_mcp_citation_demo.py`), generated receipts (`receipt-schema-break.json`, `receipt-repeat-incident.json`) |
+| [`docs/`](file:///z:/home/lx_singw/projects/graphoath/docs/) | 33 Comprehensive documentation & spec modules (Naive Diff, Independent Verifier, Assertion Path, Evidence Drift, Confidence Routing, Trust Tag, Open-Source RFC, Memory Recall, HITL Approvals, OTel Spec, Playbooks, EU AI Act) |
+| [`examples/`](file:///z:/home/lx_singw/projects/graphoath/examples/) | 6 Runnable Python scripts (`verify_receipt_chain.py`, `naive_vs_verified_diff_demo.py`, `generate_synthetic_graph.py`, `mcp_server_proxy_demo.py`, `langchain_agent_example.py`, `mock_mcp_citation_demo.py`), generated receipts |
 | `src/graphoath/` | Python runtime — DataHub client, Deposition pipeline, Custody ledger, API |
 | `src/dashboard/` | Next.js operator dashboard |
 | `tests/` | Unit and integration tests |
