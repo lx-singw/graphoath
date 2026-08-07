@@ -42,17 +42,17 @@ GraphOath sits between autonomous agents and your DataHub metadata graph. Before
 | Operational Dimension | Naive Data Agent (Unverified Write) | GraphOath Citation-Gated Agent |
 | :--- | :--- | :--- |
 | **Write Authorization** | Unchecked direct LLM execution | Gated by deterministic Citation Gate (`Ref(Claims) ⊆ Ref(Evidence)`) |
-| **Hallucination Risk** | High (~15% invalid URN write calls) | **0.0% Hallucination Prevention Rate** |
+| **Hallucination Risk** | High (Unchecked LLM URN generation risk) | **Citation-Gated Prevention** |
 | **Audit Provenance** | Probabilistic chat logs | Immutable SHA-256 hash-chained Postgres ledger & `graphoathReceipt` aspect |
-| **Safety Latency** | 1,850 ms (LLM self-checking) | **< 5 ms (Deterministic zero-network set-intersection check)** |
+| **Safety Latency** | Variable LLM roundtrip | **< 5 ms Target SLA (Local benchmark ~1.8 ms)** |
 
 ### 1.1 Originality & Long-Term Vision Paradigm Shift
 
-* **Zero-Trust Metadata Control Plane (ZMCPA)**: While catalog vendors focus on READ access for agents, GraphOath introduces native WRITE governance. See [`docs/vision.md`](file:///z:/home/lx_singw/projects/graphoath/docs/vision.md).
-* **Multi-Agent Consensus**: Coordinates multi-agent quorum for high-risk write actions. See [`docs/multi-agent-consensus-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/multi-agent-consensus-gate.md).
-* **EU AI Act Article 14 & SOC2**: Cryptographic receipts satisfy global regulatory non-repudiation mandates. See [`docs/regulatory-compliance-provenance.md`](file:///z:/home/lx_singw/projects/graphoath/docs/regulatory-compliance-provenance.md).
-* **Financial ROI Model**: Saves mid-to-large enterprise data teams $442,500.00+ annually in pipeline downtime. Run `python examples/cost_calculator_demo.py`.
-* **5-Module Roadmap**: Scalable roadmap covering Deposition (triage), Undertow (ML drift), Prune (costs), Rosetta (glossary), and ReguLineage (compliance). See [`docs/roadmap-future-modules.md`](file:///z:/home/lx_singw/projects/graphoath/docs/roadmap-future-modules.md).
+* **Zero-Trust Metadata Control Plane (ZMCPA)**: While catalog vendors focus on READ access for agents, GraphOath introduces native WRITE governance. See [`docs/vision.md`](docs/vision.md).
+* **Multi-Agent Consensus**: Coordinates multi-agent quorum for high-risk write actions. See [`docs/vision.md#2-multi-agent-consensus-gating-topology`](docs/vision.md#2-multi-agent-consensus-gating-topology).
+* **EU AI Act Article 14 & SOC2**: Cryptographic receipts satisfy global regulatory non-repudiation mandates. See [`docs/vision.md#3-eu-ai-act-article-14--regulatory-non-repudiation`](docs/vision.md#3-eu-ai-act-article-14--regulatory-non-repudiation).
+* **Financial Impact Model**: Interactive model calculating estimated ROI savings from automated triage. Run `python examples/cost_calculator_demo.py`.
+* **5-Module Roadmap**: Scalable roadmap covering Deposition (triage), Undertow (ML drift), Prune (costs), Rosetta (glossary), and ReguLineage (compliance). See [`docs/vision.md#5-5-module-functional-roadmap`](docs/vision.md#5-5-module-functional-roadmap).
 * **OpenTelemetry Observability**: Emits native OTel trace spans for enterprise dashboards. Run `python examples/otel_tracing_demo.py`.
 
 
@@ -74,28 +74,29 @@ def raise_data_incident(target_dataset_urn: str, issue_description: str):
 
 ---
 
-## 3. DataHub Ecosystem Context Coverage Matrix
+## 3. Native DataHub Platform Ecosystem Integration
 
-| DataHub Primitive | GraphOath Integration Point | Read / Write | Value Delivered |
-| :--- | :--- | :---: | :--- |
-| **MCP Server** | `search_across_lineage`, `get_dataset_ownership`, `get_dataset_usage`, `get_dataset_assertions` | **Read** | Live lineage graph, blast radius, & data quality tests |
-| **Agent Context Kit** | Python SDK wrappers for GraphQL (`dataset`, `searchAcrossLineage`) | **Read** | Low-latency context resolution |
-| **DataHub Actions** | Real-time `MetadataChangeLog` (MCL) event listener plugin | **Read** | Event-driven automated incident triage |
-| **Incidents API** | `raiseIncident` GraphQL mutation with assignees | **Write** | Native incident creation & owner routing |
-| **Custom Aspects** | `graphoathReceipt` aspect attached to DataHub entities | **Write** | Tamper-evident graph provenance & UI lineage edges |
-| **DataHub Skills** | [`skills/graphoath-citation-verification/SKILL.md`](file:///z:/home/lx_singw/projects/graphoath/skills/graphoath-citation-verification/SKILL.md) | **Tool** | Native skill package for AI agent runtimes |
+GraphOath composes natively with DataHub's architectural primitives:
+
+| DataHub Primitive | Integration Component | Integration Type | Value Provided |
+| :--- | :--- | :--- | :--- |
+| **MCP Server** | `search_across_lineage`, `get_dataset_ownership`, `get_dataset_assertions` | **Evidence Engine** | Fetches queryable lineage facts & quality assertions before write calls |
+| **Agent Context Kit** | `graphoath.mcp_client` | **Context Grounding** | Grounding context for agent reasoning loops |
+| **Actions Framework** | `MetadataChangeLog_v1` listener | **Event Ingestion** | Real-time event ingestion of schema changes |
+| **GraphQL API** | `raiseIncident` mutation | **Native Incident** | Files native DataHub Incidents instead of external tickets |
+| **Aspect Registry** | `graphoathReceipt` aspect | **Custom Aspect** | Attaches evidence receipts directly to DataHub entity URNs |
+| **DataHub Skills** | [`skills/graphoath-citation-verification/SKILL.md`](skills/graphoath-citation-verification/SKILL.md) | **Tool** | Native skill package for AI agent runtimes |
 
 ---
 
-## 4. Quantified Impact & Latency SLAs
+## 4. Multi-Framework Agent Support & Adapters
 
-| Metric / SLA | Target Metric | Empirical Result (p95) |
-| :--- | :--- | :--- |
-| **Zero-Network Citation Gate** | `< 5.0 ms` | **1.84 ms (99.9% faster than LLM self-checking)** |
-| **Custody Hash-Chain Ledger Append** | `< 25.0 ms` | **11.20 ms (Postgres SHA-256 chain)** |
-| **End-to-End Triage SLA (Warm Path)** | `< 850.0 ms` | **620.00 ms (Warm MCP context cache)** |
-| **End-to-End Triage SLA (Cold Path)** | `< 5.0 s` | **2.41 s (Full incident & receipt lifecycle)** |
-| **Hallucinated Write Prevention Rate** | **100.0%** | **100.0% (0 uncited claims executed across 1k tests)** |
+GraphOath provides dedicated adapters for major agent frameworks in [`graphoath/adapters/`](graphoath/adapters/):
+
+- **LangChain**: `GraphOathCitationToolWrapper`
+- **LangGraph**: `CitationGateStateNode`
+- **LlamaIndex**: `@llama_graphoath_protected`
+- **Google ADK**: `GraphOathADKInterceptor`
 
 ---
 
@@ -103,23 +104,22 @@ def raise_data_incident(target_dataset_urn: str, issue_description: str):
 
 Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Agent Hackathon**.
 
-* **Judge's 3-Minute Quick-Evaluation Guide**: [`docs/judge-walkthrough.md`](file:///z:/home/lx_singw/projects/graphoath/docs/judge-walkthrough.md)
-* **Devpost Submission Copy & Community Launch Kit**: [`docs/devpost-and-community-launch.md`](file:///z:/home/lx_singw/projects/graphoath/docs/devpost-and-community-launch.md)
-* **DataHub Agent Skill Definition**: [`skills/graphoath-citation-verification/SKILL.md`](file:///z:/home/lx_singw/projects/graphoath/skills/graphoath-citation-verification/SKILL.md)
-* **DataHub MCP & Context Kit Integration Guide**: [`docs/mcp-context-kit-guide.md`](file:///z:/home/lx_singw/projects/graphoath/docs/mcp-context-kit-guide.md)
-* **Open-Source RFC Contribution Artifact**: [`docs/datahub-rfc-citation-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/datahub-rfc-citation-gate.md)
-* **Actions Webhook & Real-Time Listener Protocol**: [`docs/datahub-actions-webhook-security.md`](file:///z:/home/lx_singw/projects/graphoath/docs/datahub-actions-webhook-security.md)
-* **Empirical Benchmarks & Latency SLAs**: [`docs/benchmarks-and-performance.md`](file:///z:/home/lx_singw/projects/graphoath/docs/benchmarks-and-performance.md)
-* **Confidence-Tiered Routing Engine**: [`docs/confidence-tiered-routing.md`](file:///z:/home/lx_singw/projects/graphoath/docs/confidence-tiered-routing.md)
-* **Human-in-the-Loop Approval Interceptor**: [`docs/human-in-the-loop-approval.md`](file:///z:/home/lx_singw/projects/graphoath/docs/human-in-the-loop-approval.md)
-* **Financial ROI & Cost of Hallucination Model**: [`docs/cost-of-hallucination-calculator.md`](file:///z:/home/lx_singw/projects/graphoath/docs/cost-of-hallucination-calculator.md)
-* **Hackathon Evaluation Blueprint & Criteria Matrix**: [`docs/hackathon-alignment.md`](file:///z:/home/lx_singw/projects/graphoath/docs/hackathon-alignment.md)
+* **Judge's Quick-Evaluation Guide**: [`docs/judge-walkthrough.md`](docs/judge-walkthrough.md)
+* **Devpost Submission Package**: [`docs/devpost-submission-package.md`](docs/devpost-submission-package.md)
+* **DataHub Agent Skill Definition**: [`skills/graphoath-citation-verification/SKILL.md`](skills/graphoath-citation-verification/SKILL.md)
+* **DataHub MCP & Context Kit Integration Guide**: [`docs/mcp-context-kit-guide.md`](docs/mcp-context-kit-guide.md)
+* **Open-Source RFC Contribution Artifact**: [`docs/datahub-rfc-citation-gate.md`](docs/datahub-rfc-citation-gate.md)
+* **Actions Webhook & Protocol Guide**: [`docs/datahub-actions-webhook-security.md`](docs/datahub-actions-webhook-security.md)
+* **Benchmarks & Latency SLA Guide**: [`docs/benchmarks-and-performance.md`](docs/benchmarks-and-performance.md)
+* **Confidence-Tiered Routing Engine**: [`docs/confidence-tiered-routing.md`](docs/confidence-tiered-routing.md)
+* **Human-in-the-Loop Approval Interceptor**: [`docs/human-in-the-loop-approval.md`](docs/human-in-the-loop-approval.md)
+* **Quantified Impact Case Study**: [`docs/quantified-impact-case-study.md`](docs/quantified-impact-case-study.md)
+* **Hackathon Alignment Criteria Matrix**: [`docs/hackathon-alignment.md`](docs/hackathon-alignment.md)
 
-* **1-Command Fast-Track Evaluation Runner**: `python scripts/fast_track_evaluation.py`
-* **Interactive Master CLI Menu for Judges**: `python examples/master_demo.py`
-* **PR-Ready Avro Aspect Schema**: [`schemas/graphoathReceipt.avsc`](file:///z:/home/lx_singw/projects/graphoath/schemas/graphoathReceipt.avsc)
-* **Upstream DataHub PR Contribution Blueprint**: [`docs/datahub-pr-contribution-guide.md`](file:///z:/home/lx_singw/projects/graphoath/docs/datahub-pr-contribution-guide.md)
-* **Devpost Submission Launch Package**: [`docs/devpost-submission-package.md`](file:///z:/home/lx_singw/projects/graphoath/docs/devpost-submission-package.md)
+* **1-Command Verification Runner**: `python scripts/fast_track_evaluation.py`
+* **Interactive Master CLI Menu**: `python examples/master_demo.py`
+* **PR-Ready Avro Aspect Schema**: [`schemas/graphoathReceipt.avsc`](schemas/graphoathReceipt.avsc)
+* **Upstream DataHub PR Contribution Blueprint**: [`docs/datahub-pr-contribution-guide.md`](docs/datahub-pr-contribution-guide.md)
 
 ---
 
@@ -128,10 +128,10 @@ Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Ag
 | Technical Requirement | Component / Module | Verification Artifact |
 | :--- | :--- | :--- |
 | **Deterministic Gating** | `graphoath.gate.evaluate()` | 100% Unit test coverage (`tests/test_gate.py`) |
-| **Tamper-Evident Ledger** | `graphoath.ledger_verify` | Live verification API (`GET /api/v1/ledger/verify`) & [`tests/test_ledger_tamper.py`](file:///z:/home/lx_singw/projects/graphoath/tests/test_ledger_tamper.py) |
+| **Tamper-Evident Ledger** | `graphoath.ledger_verify` | Live verification API (`GET /api/v1/ledger/verify`) & [`tests/test_ledger_tamper.py`](tests/test_ledger_tamper.py) |
 | **Resilience & Circuit Breakers** | `graphoath.resilience` | Exponential backoff decorator + max hop/node cap |
 | **Real-World Operational Suite** | `graphoath.slack_notifier`, `playbooks`, `dedup`, `ownership_resolver` | Multi-platform triage, Slack cards, playbooks, & dedup |
-| **Open-Source Aspect Schema** | [`schemas/graphoathReceipt.avsc`](file:///z:/home/lx_singw/projects/graphoath/schemas/graphoathReceipt.avsc) | Pegasus/Avro custom aspect for DataHub GMS |
+| **Open-Source Aspect Schema** | [`schemas/graphoathReceipt.avsc`](schemas/graphoathReceipt.avsc) | Pegasus/Avro custom aspect for DataHub GMS |
 
 ---
 

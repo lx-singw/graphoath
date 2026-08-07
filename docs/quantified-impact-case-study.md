@@ -52,7 +52,7 @@ An upstream schema migration drops column `customer_id` from dataset `prod.order
    - Interactive Slack Block Kit notification card rendered with `[Approve Remediation Playbook]` button.
    - Remediation Playbook applies `Quarantined` tag to broken datasets.
    - Custody receipt written to Postgres ledger in **11.2 ms**.
-   - Total time elapsed: **2.4 seconds** (Demonstrated in [`examples/realworld_pipeline_triage_demo.py`](file:///z:/home/lx_singw/projects/graphoath/examples/realworld_pipeline_triage_demo.py)).
+   - Total time elapsed: **2.4 seconds** (Demonstrated in [`examples/realworld_pipeline_triage_demo.py`](examples/realworld_pipeline_triage_demo.py)).
 
 ---
 
@@ -60,4 +60,4 @@ An upstream schema migration drops column `customer_id` from dataset `prod.order
 
 - **Engineering Capacity Saved**: ~18 hours per engineer / month previously lost to manual lineage tracing.
 - **Cost Reduction**: $14,400 / month saved in lost engineering capacity across a 20-person data engineering organization.
-- **Annual Risk Reduction**: $442,500.00 in annual net savings (evaluated in [`examples/cost_calculator_demo.py`](file:///z:/home/lx_singw/projects/graphoath/examples/cost_calculator_demo.py)).
+- **Annual Risk Reduction**: $442,500.00 in annual net savings (evaluated in [`examples/cost_calculator_demo.py`](examples/cost_calculator_demo.py)).

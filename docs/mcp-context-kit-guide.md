@@ -49,7 +49,7 @@ DataHub provides an open-source Context Platform for AI agents through multiple 
 
 ## 2. DataHub Agent Skill Integration
 
-GraphOath is packaged as an official DataHub Agent Skill located at [`skills/graphoath-citation-verification/SKILL.md`](file:///z:/home/lx_singw/projects/graphoath/skills/graphoath-citation-verification/SKILL.md).
+GraphOath is packaged as an official DataHub Agent Skill located at [`skills/graphoath-citation-verification/SKILL.md`](skills/graphoath-citation-verification/SKILL.md).
 
 Any DataHub Analytics Agent, Gemini agent, or Claude model can load GraphOath directly as a native skill to perform zero-trust verification of proposed actions before executing mutations.
 

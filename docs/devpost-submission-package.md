@@ -31,7 +31,7 @@ GraphOath is an open-source, citation-gated control plane middleware for AI agen
 
 ### Accomplishments that we're proud of
 * **Zero Duplication**: Native composition with DataHub's Incident entity rather than building a parallel catalog.
-* **PR-Ready Avro Aspect Schema**: Formulated [`schemas/graphoathReceipt.avsc`](file:///z:/home/lx_singw/projects/graphoath/schemas/graphoathReceipt.avsc) for merging directly into `datahub-project/datahub`.
+* **PR-Ready Avro Aspect Schema**: Formulated [`schemas/graphoathReceipt.avsc`](schemas/graphoathReceipt.avsc) for merging directly into `datahub-project/datahub`.
 * **Fast-Track Judge UX**: 1-command evaluation runner (`python scripts/fast_track_evaluation.py`) and interactive Master CLI Menu (`python examples/master_demo.py`).
 * **Financial ROI Model**: Quantified $442,500.00 in annual net savings for enterprise data engineering teams.
 

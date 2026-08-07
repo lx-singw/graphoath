@@ -15,7 +15,7 @@
 ---
 
 ### [0:30 - 1:15] Phase 2: Introducing GraphOath & Zero-Trust Citation Gating
-* **Visual**: Cut to architecture diagram in [`docs/visualizer.html`](file:///z:/home/lx_singw/projects/graphoath/docs/visualizer.html). Switch to terminal and run `python examples/langchain_agent_example.py`.
+* **Visual**: Cut to architecture diagram in [`docs/visualizer.html`](docs/visualizer.html). Switch to terminal and run `python examples/langchain_agent_example.py`.
 * **Voiceover**:
   > *"Meet GraphOath — the citation-gated control plane for AI agents acting on DataHub. GraphOath sits between agents and your catalog. In Scenario A, our LangChain agent tries to raise an incident on an unverified table. GraphOath's Citation Gate catches it in under 5 milliseconds and returns REJECTED, blocking the write. In Scenario B, the agent provides valid DataHub lineage citations — GraphOath verifies the proof chain and raises a native DataHub Incident."*
 

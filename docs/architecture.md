@@ -67,9 +67,9 @@ to DataHub: `lineage.py` for `searchAcrossLineage`, `ownership.py` and
 through this layer — never directly — so that authentication, retry policy, and
 MCP Server vs. direct GraphQL routing are configured in exactly one place.
 
-For deep technical details on DataHub MCP Server protocols, see [`docs/mcp-context-kit-guide.md`](file:///z:/home/lx_singw/projects/graphoath/docs/mcp-context-kit-guide.md).
-For patterns on connecting LangChain, LangGraph, or Google ADK agents to GraphOath, see [`docs/framework-integrations.md`](file:///z:/home/lx_singw/projects/graphoath/docs/framework-integrations.md).
-For hackathon challenge track and criteria alignment, see [`docs/hackathon-alignment.md`](file:///z:/home/lx_singw/projects/graphoath/docs/hackathon-alignment.md).
+For deep technical details on DataHub MCP Server protocols, see [`docs/mcp-context-kit-guide.md`](docs/mcp-context-kit-guide.md).
+For patterns on connecting LangChain, LangGraph, or Google ADK agents to GraphOath, see [`docs/framework-integrations.md`](docs/framework-integrations.md).
+For hackathon challenge track and criteria alignment, see [`docs/hackathon-alignment.md`](docs/hackathon-alignment.md).
 
 ### 2.6 Custody (Ledger)
 
@@ -209,13 +209,13 @@ This cryptographic binding ensures that no claim can be mutated or replayed afte
 | Technical Requirement | Component / Module | Verification Artifact |
 | :--- | :--- | :--- |
 | **Deterministic Gating** | `graphoath.gate.evaluate()` | 100% Unit test coverage (`tests/test_gate.py`) |
-| **Tamper-Evident Ledger** | `graphoath.ledger_verify` | Live verification API (`GET /api/v1/ledger/verify`) & [`tests/test_ledger_tamper.py`](file:///z:/home/lx_singw/projects/graphoath/tests/test_ledger_tamper.py) |
+| **Tamper-Evident Ledger** | `graphoath.ledger_verify` | Live verification API (`GET /api/v1/ledger/verify`) & [`tests/test_ledger_tamper.py`](tests/test_ledger_tamper.py) |
 | **Resilience & Circuit Breaker** | `graphoath.resilience` | Exponential backoff decorator + max hop/node cap |
-| **Multi-Framework Adapters** | [`graphoath/adapters/`](file:///z:/home/lx_singw/projects/graphoath/graphoath/adapters/) | LangChain, LangGraph, LlamaIndex, Google ADK adapters |
+| **Multi-Framework Adapters** | [`graphoath/adapters/`](graphoath/adapters/) | LangChain, LangGraph, LlamaIndex, Google ADK adapters |
 | **Agent Key Verification** | `graphoath.identity` | HMAC-SHA256 non-repudiation signature verification |
 | **Continuous Audit Daemon** | `graphoath.audit_daemon` | Asynchronous hash chain & evidence drift worker |
 | **Standalone Mock MCP Server**| `graphoath.mock_mcp_server` | JSON-RPC MCP server for zero-network judge testing |
 | **Proof Package Exporter CLI**| `graphoath.cli` | Standalone proof package export (`proof_package.json`) |
-| **OpenAPI v3.1 Spec Exporter** | `scripts/export_openapi_spec.py` | Machine-readable REST spec [`docs/openapi.json`](file:///z:/home/lx_singw/projects/graphoath/docs/openapi.json) |
+| **OpenAPI v3.1 Spec Exporter** | `scripts/export_openapi_spec.py` | Machine-readable REST spec [`docs/openapi.json`](docs/openapi.json) |
 
 

@@ -25,7 +25,7 @@ To ensure GraphOath maintains a clear commercial identity and zero trademark con
 Winning a community-driven hackathon requires proactive visibility with the core open-source maintainers and community:
 
 ### 2.1 Slack Community Engagement Plan (`#agent-hackathon`)
-1. **Public Proposal Sharing**: Post an announcement introducing GraphOath and linking to our open-source RFC ([`docs/datahub-rfc-citation-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/datahub-rfc-citation-gate.md)).
+1. **Public Proposal Sharing**: Post an announcement introducing GraphOath and linking to our open-source RFC ([`docs/datahub-rfc-citation-gate.md`](docs/datahub-rfc-citation-gate.md)).
 2. **Key Message**: *"We built GraphOath to solve the agent hallucination risk by enforcing citation gating natively on DataHub. Check out our open-source RFC and runnable examples!"*
 3. **Feedback Gathering**: Engage Acryl Data engineers in technical discussion around custom aspects (`graphoathReceipt`) and DataHub MCP Server tool performance.
 

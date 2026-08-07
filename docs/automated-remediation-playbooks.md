@@ -1,6 +1,6 @@
 # GraphOath — Citation-Gated Automated Remediation Playbooks
 
-This document specifies **GraphOath's Automated Remediation Playbook Generator**, implemented in [`graphoath/playbooks.py`](file:///z:/home/lx_singw/projects/graphoath/graphoath/playbooks.py), which dynamically attaches verified, actionable remediation playbooks to native DataHub Incidents (`raiseIncident`) when pipeline schema breaks occur.
+This document specifies **GraphOath's Automated Remediation Playbook Generator**, implemented in [`graphoath/playbooks.py`](graphoath/playbooks.py), which dynamically attaches verified, actionable remediation playbooks to native DataHub Incidents (`raiseIncident`) when pipeline schema breaks occur.
 
 ---
 
@@ -54,4 +54,4 @@ GraphOath ships 3 standard playbooks in `graphoath/playbooks.py`:
 
 ## 3. Human Approval Gate Integration
 
-Playbook steps classified as `LOW_NON_DESTRUCTIVE` can be executed automatically by platform automation, while steps classified as `MEDIUM_REQUIRES_APPROVAL` are routed through GraphOath's Human-in-the-Loop Slack approval gate (`graphoath/slack_notifier.py`) before execution (see [`docs/human-in-the-loop-approval.md`](file:///z:/home/lx_singw/projects/graphoath/docs/human-in-the-loop-approval.md)).
+Playbook steps classified as `LOW_NON_DESTRUCTIVE` can be executed automatically by platform automation, while steps classified as `MEDIUM_REQUIRES_APPROVAL` are routed through GraphOath's Human-in-the-Loop Slack approval gate (`graphoath/slack_notifier.py`) before execution (see [`docs/human-in-the-loop-approval.md`](docs/human-in-the-loop-approval.md)).

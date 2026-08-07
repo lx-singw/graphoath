@@ -36,9 +36,9 @@ python examples/langchain_agent_example.py
 
 ### Step 3: Review Key Architecture & Alignment Docs (60 seconds)
 
-1. **Hackathon Track Alignment**: [`docs/hackathon-alignment.md`](file:///z:/home/lx_singw/projects/graphoath/docs/hackathon-alignment.md) — Itemized matrix showing how GraphOath scores maximum points across all 4 challenge focus areas.
-2. **AI Framework Integration Guide**: [`docs/framework-integrations.md`](file:///z:/home/lx_singw/projects/graphoath/docs/framework-integrations.md) — Patterns for LangChain, LangGraph, LlamaIndex, and Google ADK.
-3. **MCP Server & Context Kit Guide**: [`docs/mcp-context-kit-guide.md`](file:///z:/home/lx_singw/projects/graphoath/docs/mcp-context-kit-guide.md) — Details on DataHub MCP tool integration (`search_across_lineage`, `get_dataset_ownership`).
+1. **Hackathon Track Alignment**: [`docs/hackathon-alignment.md`](docs/hackathon-alignment.md) — Itemized matrix showing how GraphOath scores maximum points across all 4 challenge focus areas.
+2. **AI Framework Integration Guide**: [`docs/framework-integrations.md`](docs/framework-integrations.md) — Patterns for LangChain, LangGraph, LlamaIndex, and Google ADK.
+3. **MCP Server & Context Kit Guide**: [`docs/mcp-context-kit-guide.md`](docs/mcp-context-kit-guide.md) — Details on DataHub MCP tool integration (`search_across_lineage`, `get_dataset_ownership`).
 
 ---
 
@@ -48,7 +48,7 @@ python examples/langchain_agent_example.py
 |---|---|---|---|
 | **Context Grounding (25%)** | Are agent claims verified against DataHub's metadata graph before taking write actions? | Tested in `examples/langchain_agent_example.py` (Scenario A vs B). | **10 / 10** |
 | **DataHub Integration (25%)** | Does it use native DataHub constructs (MCP Server, Incidents, Aspects, Actions framework)? | Uses native `raiseIncident`, custom aspect `graphoathReceipt`, and MCP tools. | **10 / 10** |
-| **Technical Rigor (25%)** | Is there a tamper-evident audit trail for AI actions? | Postgres SHA-256 hash-chained Custody ledger. See [`docs/security.md`](file:///z:/home/lx_singw/projects/graphoath/docs/security.md). | **10 / 10** |
+| **Technical Rigor (25%)** | Is there a tamper-evident audit trail for AI actions? | Postgres SHA-256 hash-chained Custody ledger. See [`docs/security.md`](docs/security.md). | **10 / 10** |
 | **Completeness & UX (25%)** | Is the system fully documented with runnable code and operator dashboard? | Includes Next.js dashboard, OpenAPI REST spec, and 12 detailed doc modules. | **10 / 10** |
 
 ---

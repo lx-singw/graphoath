@@ -9,7 +9,7 @@ This document details the step-by-step contribution path for upstreaming the `gr
 To integrate GraphOath's citation receipt aspect directly into DataHub GMS (DataHub Metadata Service):
 
 1. **Avro Schema Placement**:
-   Place [`schemas/graphoathReceipt.avsc`](file:///z:/home/lx_singw/projects/graphoath/schemas/graphoathReceipt.avsc) into:
+   Place [`schemas/graphoathReceipt.avsc`](schemas/graphoathReceipt.avsc) into:
    `metadata-models/src/main/resources/mcr/aspects/com/linkedin/dataset/graphoathReceipt.avsc`
 
 2. **Aspect Annotation**:
@@ -28,4 +28,4 @@ To integrate GraphOath's citation receipt aspect directly into DataHub GMS (Data
 
 ## 3. RFC Specification Link
 
-For complete details on the citation gate pattern, see [`docs/datahub-rfc-citation-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/datahub-rfc-citation-gate.md).
+For complete details on the citation gate pattern, see [`docs/datahub-rfc-citation-gate.md`](docs/datahub-rfc-citation-gate.md).

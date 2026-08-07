@@ -65,4 +65,4 @@ When GraphOath processes a new change event, it attaches a `functional_memory_re
 
 ## 4. Empirical Example
 
-See [`examples/receipt-repeat-incident.json`](file:///z:/home/lx_singw/projects/graphoath/examples/receipt-repeat-incident.json) for a live generated receipt demonstrating functional memory recall.
+See [`examples/receipt-repeat-incident.json`](examples/receipt-repeat-incident.json) for a live generated receipt demonstrating functional memory recall.

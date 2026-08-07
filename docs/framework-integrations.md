@@ -146,6 +146,6 @@ GraphOath provides clean abstractions for all major frameworks:
 
 ## 5. Runnable Examples
 
-To see these framework patterns in action, explore the scripts in the [`examples/`](file:///z:/home/lx_singw/projects/graphoath/examples/) directory:
-- [`examples/langchain_agent_example.py`](file:///z:/home/lx_singw/projects/graphoath/examples/langchain_agent_example.py): Full runnable LangChain agent integration script.
-- [`examples/mock_mcp_citation_demo.py`](file:///z:/home/lx_singw/projects/graphoath/examples/mock_mcp_citation_demo.py): Standalone script demonstrating citation gate mechanics.
+To see these framework patterns in action, explore the scripts in the [`examples/`](examples/) directory:
+- [`examples/langchain_agent_example.py`](examples/langchain_agent_example.py): Full runnable LangChain agent integration script.
+- [`examples/mock_mcp_citation_demo.py`](examples/mock_mcp_citation_demo.py): Standalone script demonstrating citation gate mechanics.

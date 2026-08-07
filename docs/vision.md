@@ -51,7 +51,7 @@ As enterprise data architectures evolve from single agents to multi-agent swarms
                       └─────────────────────────────┘
 ```
 
-See [`docs/multi-agent-consensus-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/multi-agent-consensus-gate.md) for complete quorum specs.
+See [`docs/multi-agent-consensus-gate.md`](docs/multi-agent-consensus-gate.md) for complete quorum specs.
 
 ---
 
@@ -60,8 +60,8 @@ See [`docs/multi-agent-consensus-gate.md`](file:///z:/home/lx_singw/projects/gra
 Under global regulations such as **EU AI Act Article 14 (Human Oversight)** and **SOC 2 Type II Audits**, enterprises operating autonomous AI agents must guarantee human oversight and tamper-evident audit trails.
 
 GraphOath satisfies regulatory compliance by design:
-1. **Human Oversight Routing**: Medium-confidence agent actions are routed to Slack/Teams human approval workflows ([`docs/human-in-the-loop-approval.md`](file:///z:/home/lx_singw/projects/graphoath/docs/human-in-the-loop-approval.md)).
-2. **Legal Non-Repudiation**: Receipts are written to an append-only, SHA-256 hash-chained Postgres ledger and mirrored to DataHub custom aspects ([`docs/regulatory-compliance-provenance.md`](file:///z:/home/lx_singw/projects/graphoath/docs/regulatory-compliance-provenance.md)).
+1. **Human Oversight Routing**: Medium-confidence agent actions are routed to Slack/Teams human approval workflows ([`docs/human-in-the-loop-approval.md`](docs/human-in-the-loop-approval.md)).
+2. **Legal Non-Repudiation**: Receipts are written to an append-only, SHA-256 hash-chained Postgres ledger and mirrored to DataHub custom aspects ([`docs/regulatory-compliance-provenance.md`](docs/regulatory-compliance-provenance.md)).
 
 ---
 
@@ -71,13 +71,13 @@ Every receipt written back to DataHub enriches the graph itself. When future age
 
 $$\text{Enterprise Trust Moat} = \sum_{t=1}^{T} \text{Receipts}_t \times \text{VerifiedEvidence}$$
 
-Future agents automatically learn from historical schema breaks and incident resolutions, creating a self-reinforcing enterprise memory flywheel. See [`docs/functional-memory-recall.md`](file:///z:/home/lx_singw/projects/graphoath/docs/functional-memory-recall.md).
+Future agents automatically learn from historical schema breaks and incident resolutions, creating a self-reinforcing enterprise memory flywheel. See [`docs/functional-memory-recall.md`](docs/functional-memory-recall.md).
 
 ---
 
 ## 5. Open Custody Protocol & DataHub Community RFC
 
-GraphOath open-sources the **Custody Protocol** as a DataHub Community RFC ([`docs/datahub-rfc-citation-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/datahub-rfc-citation-gate.md)). Any third-party agent framework (LangChain, LangGraph, LlamaIndex, Google ADK, AutoGen) can submit proof chains to DataHub through a standardized custom aspect specification (`graphoathReceipt`).
+GraphOath open-sources the **Custody Protocol** as a DataHub Community RFC ([`docs/datahub-rfc-citation-gate.md`](docs/datahub-rfc-citation-gate.md)). Any third-party agent framework (LangChain, LangGraph, LlamaIndex, Google ADK, AutoGen) can submit proof chains to DataHub through a standardized custom aspect specification (`graphoathReceipt`).
 
 ---
 
@@ -87,7 +87,7 @@ GraphOath quantifies the economic value of hallucination prevention:
 
 $$\text{Financial Risk Saved} = N_{\text{actions}} \times P_{\text{hallucination}} \times \left( \text{MTTR}_{\text{manual}} \times \text{HourlyRate} + \text{SLA\_Penalties} \right)$$
 
-For a typical mid-sized enterprise running 5,000 agent actions annually with a 15% hallucination risk, GraphOath delivers **$442,500.00 in annual net savings** (demonstrated in [`examples/cost_calculator_demo.py`](file:///z:/home/lx_singw/projects/graphoath/examples/cost_calculator_demo.py) and [`docs/cost-of-hallucination-calculator.md`](file:///z:/home/lx_singw/projects/graphoath/docs/cost-of-hallucination-calculator.md)).
+For a typical mid-sized enterprise running 5,000 agent actions annually with a 15% hallucination risk, GraphOath delivers **$442,500.00 in annual net savings** (demonstrated in [`examples/cost_calculator_demo.py`](examples/cost_calculator_demo.py) and [`docs/cost-of-hallucination-calculator.md`](docs/cost-of-hallucination-calculator.md)).
 
 ---
 
@@ -101,4 +101,4 @@ GraphOath is a scalable platform with a multi-stage product expansion roadmap:
 4. **Rosetta**: Tribal knowledge capture & automated glossary term generator.
 5. **ReguLineage**: Regulatory exposure tracing (PII / GDPR / EU AI Act).
 
-See [`docs/roadmap-future-modules.md`](file:///z:/home/lx_singw/projects/graphoath/docs/roadmap-future-modules.md).
+See [`docs/roadmap-future-modules.md`](docs/roadmap-future-modules.md).

@@ -132,7 +132,7 @@ as unsafe for production use.
 
 ## 4. Live Ledger Verification API Specification (`GET /api/v1/ledger/verify`)
 
-The Custody Ledger's SHA-256 hash-chain integrity is verified via `GET /api/v1/ledger/verify` (implemented in `graphoath/ledger_verify.py` and tested in [`tests/test_ledger_tamper.py`](file:///z:/home/lx_singw/projects/graphoath/tests/test_ledger_tamper.py)).
+The Custody Ledger's SHA-256 hash-chain integrity is verified via `GET /api/v1/ledger/verify` (implemented in `graphoath/ledger_verify.py` and tested in [`tests/test_ledger_tamper.py`](tests/test_ledger_tamper.py)).
 
 ### Endpoint Response (Intact Ledger)
 ```json

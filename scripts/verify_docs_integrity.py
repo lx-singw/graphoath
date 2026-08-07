@@ -9,31 +9,34 @@ import glob
 import re
 
 def verify_markdown_docs():
-    doc_files = glob.glob("docs/*.md") + ["README.md"]
+    doc_files = glob.glob("docs/*.md") + glob.glob("examples/*.md") + ["README.md"]
     total_links = 0
     broken_links = []
     
-    link_regex = re.compile(r"\[([^\]]+)\]\((file:///[^\)]+)\)")
+    # Matches markdown relative links like [text](path/file.md) or [text](path/file.md#anchor)
+    link_regex = re.compile(r"\[([^\]]+)\]\(([^:\)]+\.[a-zA-Z0-9]+(?:#[^\)]*)?)\)")
     
     for doc in doc_files:
+        doc_dir = os.path.dirname(doc)
         with open(doc, "r", encoding="utf-8", errors="ignore") as f:
             content = f.read()
             matches = link_regex.findall(content)
-            for text, uri in matches:
+            for text, link_target in matches:
                 total_links += 1
-                path = uri.replace("file:///", "").split("#")[0]
-                # Fix Windows drive letter pathing
-                if not os.path.exists(path) and not os.path.exists("/" + path) and not os.path.exists(path.replace("z:/", "Z:/")):
-                    # Check relative path fallback
-                    base = os.path.basename(path)
-                    if not any(os.path.exists(os.path.join(root, base)) for root, dirs, files in os.walk(".")):
-                        broken_links.append((doc, text, uri))
+                target_path = link_target.split("#")[0]
+                
+                # Resolve relative path from doc location and root
+                rel_from_doc = os.path.normpath(os.path.join(doc_dir, target_path))
+                rel_from_root = os.path.normpath(target_path)
+                
+                if not (os.path.exists(rel_from_doc) or os.path.exists(rel_from_root)):
+                    broken_links.append((doc, text, link_target))
                         
-    print(f"[Docs Integrity Verifier] Scanned {len(doc_files)} markdown file(s), verified {total_links} file link(s).")
+    print(f"[Docs Integrity Verifier] Scanned {len(doc_files)} markdown file(s), verified {total_links} relative link(s).")
     if broken_links:
         print(f"[ALERT] Found {len(broken_links)} broken link(s):")
-        for doc, text, uri in broken_links:
-            print(f"  • In {doc}: [{text}]({uri})")
+        for doc, text, link in broken_links:
+            print(f"  • In {doc}: [{text}]({link})")
         return False
     print("[OK] 100% Documentation Link Integrity Verified!")
     return True

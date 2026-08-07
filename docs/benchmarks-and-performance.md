@@ -13,7 +13,7 @@ This document provides quantitative benchmark measurements and latency SLAs for 
 | **DataHub Lineage Traversal (3 Hops)** | `< 1,000.0 ms` | **385.00 ms** | GraphQL `searchAcrossLineage` / MCP `search_across_lineage` tool call over 10,000 node graph. |
 | **End-to-End Triage SLA (Warm)** | `< 850.0 ms` | **620.00 ms** | Fast-path event triage with warm MCP context cache. |
 | **End-to-End Triage SLA (Cold)** | `< 5.0 s` | **2.41 s** | Full Deposition pipeline run (Event Ingestion → Evidence Gathering → Gate → Native DataHub `raiseIncident`). |
-| **Hallucinated Write Prevention Rate** | **100.0%** | **100.0%** | 0 uncited claims executed across 1,000 synthetic test claims ([`docs/synthetic-datahub-test-harness.md`](file:///z:/home/lx_singw/projects/graphoath/docs/synthetic-datahub-test-harness.md)). |
+| **Hallucinated Write Prevention Rate** | **100.0%** | **100.0%** | 0 uncited claims executed across 1,000 synthetic test claims ([`docs/synthetic-datahub-test-harness.md`](docs/synthetic-datahub-test-harness.md)). |
 
 ---
 
