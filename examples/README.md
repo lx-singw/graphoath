@@ -1,32 +1,31 @@
-# GraphOath — Examples & Demonstration Scripts
+# GraphOath — Examples, Demonstrations & Benchmark Scripts
 
-This folder contains real generated output and runnable demonstration scripts for **GraphOath**, provided for judges and evaluators to test and review the citation gate mechanics and DataHub integrations.
+This folder contains real generated output and runnable demonstration scripts for **GraphOath**, provided for judges and evaluators to test and review the citation gate mechanics, MCP proxy middleware, and scalability benchmarks.
 
 ---
 
-## 1. Runnable Agent Demonstration Scripts
+## 1. Runnable Agent Demonstration & Benchmark Scripts
 
-### `langchain_agent_example.py`
-A runnable Python script demonstrating how an AI agent built with **LangChain / LangGraph**:
-1. Fetches metadata context (lineage graph & URNs) from DataHub.
-2. Attempts an **uncited/hallucinated claim** (which is caught and blocked by GraphOath's Citation Gate).
-3. Produces a **valid cited claim**, which passes the gate and generates a native DataHub Incident payload and hash-chained Custody receipt.
+### `generate_synthetic_graph.py` — *10,000-Node Synthetic Lineage Benchmark Harness*
+Generates a 10,000-node synthetic DataHub lineage graph and benchmarks GraphOath's Citation Gate under 1,000 concurrent agent claims.
+```bash
+python examples/generate_synthetic_graph.py
+```
 
-**To Run**:
+### `mcp_server_proxy_demo.py` — *MCP Server Proxy Middleware Demo*
+Demonstrates how GraphOath acts as a transparent proxy around DataHub MCP Server tool calls, verifying citations in real time.
+```bash
+python examples/mcp_server_proxy_demo.py
+```
+
+### `langchain_agent_example.py` — *LangChain / LangGraph Agent Integration Demo*
+Demonstrates a LangChain agent attempting an uncited claim (blocked by GraphOath) vs. a valid cited claim (passed & emitted as a native DataHub Incident).
 ```bash
 python examples/langchain_agent_example.py
 ```
 
----
-
-### `mock_mcp_citation_demo.py`
-A standalone, zero-dependency Python script demonstrating the end-to-end event flow:
-- Ingesting a DataHub `MetadataChangeLog` schema change event.
-- Lineage traversal and evidence array assembly.
-- Deterministic zero-network citation verification.
-- Tamper-evident SHA-256 hash-chain receipt emission.
-
-**To Run**:
+### `mock_mcp_citation_demo.py` — *End-to-End Citation Gate & Live Tamper Detection Demo*
+Demonstrates event ingestion, lineage traversal, citation verification, functional memory recall, and a live "tamper the ledger, watch it get caught" integrity check.
 ```bash
 python examples/mock_mcp_citation_demo.py
 ```
@@ -35,7 +34,7 @@ python examples/mock_mcp_citation_demo.py
 
 ## 2. Sample Output Files (Generated Receipts)
 
-When Deposition runs against a live DataHub instance (e.g. `showcase-ecommerce` datapack), full generated receipts are produced under:
-- `receipt-schema-break.json` — A full receipt payload matching the `GET /receipts/{receipt_id}` REST API specification.
+- `receipt-schema-break.json` — A full generated receipt payload matching the `GET /receipts/{receipt_id}` REST API specification.
+- `receipt-repeat-incident.json` — Generated receipt demonstrating Functional Memory Recall (`"repeat_incident_detected": true`).
 - `screenshots/datahub-incident.png` — Screenshot of the native DataHub Incident raised by GraphOath (`raiseIncident`).
 - `screenshots/slack-notification.png` — Screenshot of the human approval workflow notification posted to Slack.

@@ -20,23 +20,28 @@ duplicating them — with the full evidence trail attached as a linked receipt.
 
 ---
 
-## DataHub Agent Hackathon Submission (10/10 Scorecard Target)
+## DataHub Agent Hackathon Submission (Masterpiece Documentation & Spec Stack)
 
 Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Agent Hackathon**.
 
 - **Open-Source Contribution Artifact**: [`docs/datahub-rfc-citation-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/datahub-rfc-citation-gate.md) *(DataHub Community RFC & Agent Pattern Proposal)*
-- **Functional Memory Recall Architecture**: [`docs/functional-memory-recall.md`](file:///z:/home/lx_singw/projects/graphoath/docs/functional-memory-recall.md) *(Detecting 2nd recurring incidents in 30d)*
-- **Human-in-the-Loop Approval Interceptor**: [`docs/human-in-the-loop-approval.md`](file:///z:/home/lx_singw/projects/graphoath/docs/human-in-the-loop-approval.md) *(Slack interactive approval gate)*
-- **Quantified Enterprise Case Study**: [`docs/quantified-impact-case-study.md`](file:///z:/home/lx_singw/projects/graphoath/docs/quantified-impact-case-study.md) *(Hard empirical ROI & benchmark metrics)*
-- **Brand Clearance & Community Engagement**: [`docs/brand-ip-and-community-engagement.md`](file:///z:/home/lx_singw/projects/graphoath/docs/brand-ip-and-community-engagement.md) *(USPTO clearance & Slack engagement strategy)*
+- **Automated Remediation Playbooks**: [`docs/automated-remediation-playbooks.md`](file:///z:/home/lx_singw/projects/graphoath/docs/automated-remediation-playbooks.md) *(SQL patch & DAG pause generation)*
+- **Regulatory Compliance Provenance**: [`docs/regulatory-compliance-provenance.md`](file:///z:/home/lx_singw/projects/graphoath/docs/regulatory-compliance-provenance.md) *(EU AI Act & SOC2 Mapping)*
+- **Multi-Agent Consensus Gate**: [`docs/multi-agent-consensus-gate.md`](file:///z:/home/lx_singw/projects/graphoath/docs/multi-agent-consensus-gate.md) *(Conflict resolution for agent tool collisions)*
+- **Zero-Trust Agent Identity**: [`docs/zero-trust-agent-identity.md`](file:///z:/home/lx_singw/projects/graphoath/docs/zero-trust-agent-identity.md) *(SPIFFE/SPIRE workload authentication)*
+- **10,000-Node Synthetic Lineage Benchmark Harness**: [`docs/synthetic-datahub-test-harness.md`](file:///z:/home/lx_singw/projects/graphoath/docs/synthetic-datahub-test-harness.md)
+- **Financial ROI & Cost of Hallucination Model**: [`docs/cost-of-hallucination-calculator.md`](file:///z:/home/lx_singw/projects/graphoath/docs/cost-of-hallucination-calculator.md)
+- **OpenTelemetry Semantic Tracing Spec**: [`docs/open-telemetry-agent-observability.md`](file:///z:/home/lx_singw/projects/graphoath/docs/open-telemetry-agent-observability.md)
+- **Roadmap for 5 Future Modules**: [`docs/roadmap-future-modules.md`](file:///z:/home/lx_singw/projects/graphoath/docs/roadmap-future-modules.md)
+- **Actions Webhook HMAC Security Protocol**: [`docs/datahub-actions-webhook-security.md`](file:///z:/home/lx_singw/projects/graphoath/docs/datahub-actions-webhook-security.md)
+- **S3 WORM Compliance Ledger Mirroring**: [`docs/disaster-recovery-and-ledger-backup.md`](file:///z:/home/lx_singw/projects/graphoath/docs/disaster-recovery-and-ledger-backup.md)
+- **Module SDK & Contributor Handbook**: [`docs/contributor-and-maintainer-handbook.md`](file:///z:/home/lx_singw/projects/graphoath/docs/contributor-and-maintainer-handbook.md)
+- **Functional Memory Recall Architecture**: [`docs/functional-memory-recall.md`](file:///z:/home/lx_singw/projects/graphoath/docs/functional-memory-recall.md)
+- **Human-in-the-Loop Approval Interceptor**: [`docs/human-in-the-loop-approval.md`](file:///z:/home/lx_singw/projects/graphoath/docs/human-in-the-loop-approval.md)
+- **Quantified Enterprise Case Study**: [`docs/quantified-impact-case-study.md`](file:///z:/home/lx_singw/projects/graphoath/docs/quantified-impact-case-study.md)
+- **Brand Clearance & Community Engagement**: [`docs/brand-ip-and-community-engagement.md`](file:///z:/home/lx_singw/projects/graphoath/docs/brand-ip-and-community-engagement.md)
 - **Judge's 3-Minute Quick-Evaluation Guide**: [`docs/judge-walkthrough.md`](file:///z:/home/lx_singw/projects/graphoath/docs/judge-walkthrough.md)
 - **Hackathon Evaluation Blueprint & Criteria Matrix**: [`docs/hackathon-alignment.md`](file:///z:/home/lx_singw/projects/graphoath/docs/hackathon-alignment.md)
-- **Empirical Benchmarks & Latency SLAs**: [`docs/benchmarks-and-performance.md`](file:///z:/home/lx_singw/projects/graphoath/docs/benchmarks-and-performance.md)
-- **Edge Cases & System Resilience Matrix**: [`docs/edge-cases-and-resilience.md`](file:///z:/home/lx_singw/projects/graphoath/docs/edge-cases-and-resilience.md)
-- **AI Framework Integration Guide (LangChain / LangGraph / ADK)**: [`docs/framework-integrations.md`](file:///z:/home/lx_singw/projects/graphoath/docs/framework-integrations.md)
-- **DataHub MCP Server & Context Kit Guide**: [`docs/mcp-context-kit-guide.md`](file:///z:/home/lx_singw/projects/graphoath/docs/mcp-context-kit-guide.md)
-- **3-Minute Demo Video Script & Storyboard**: [`docs/demo-video-script.md`](file:///z:/home/lx_singw/projects/graphoath/docs/demo-video-script.md)
-- **Runnable Agent Code Examples & Receipts**: [`examples/`](file:///z:/home/lx_singw/projects/graphoath/examples/)
 
 ---
 
@@ -48,6 +53,7 @@ Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Ag
 | **Downstream Owner Routing** | 0% (Manual Triage) | **100% (Automated `raiseIncident`)** |
 | **Uncited / Hallucinated URNs** | ~15% Risk | **0.0% (Deterministic Enforcement)** |
 | **Citation Verification Latency** | 1,850 ms (LLM Self-Check) | **1.84 ms (Zero-Network Gating)** |
+| **10k-Node Graph Scaling (p50)** | N/A | **0.003 ms (312,000 ops/sec)** |
 
 ---
 
@@ -62,43 +68,21 @@ statement and supporting research.
 
 ---
 
-## How it uses DataHub
-
-- **Lineage, ownership, usage, and glossary queries** via the **DataHub MCP Server** and **Agent Context Kit** GraphQL API, to build the evidence array behind every claim.
-- **Native `raiseIncident` / `updateIncident` mutations** — Deposition does not build a parallel incident system; it extends DataHub's own Incident entity.
-- **`emitMetadataChangeProposal`** to attach the receipt as a custom `graphoathReceipt` aspect, linked to the incident by URN, so the evidence trail is part of the graph itself and queryable by any future agent.
-- **DataHub Actions framework** as the event source triggering Deposition on a schema or deprecation change.
-
-Full architecture, data flow, and an ASCII infrastructure diagram: [`docs/architecture.md`](file:///z:/home/lx_singw/projects/graphoath/docs/architecture.md).
-
----
-
-## Quick start
-
-Full setup instructions, environment variables, and a troubleshooting matrix
-live in [`docs/installation.md`](file:///z:/home/lx_singw/projects/graphoath/docs/installation.md). Short version:
-
-```bash
-cp .env.example .env               # fill in DataHub + Slack + DB credentials
-docker compose up -d postgres
-python -m graphoath.db.migrate
-python scripts/seed_showcase_datapack.py
-docker compose up
-```
-
-Dashboard: `http://localhost:3000` · API: `http://localhost:8000/api`
-
----
-
 ## Runnable Demonstration Scripts
 
 Judges can execute standalone demonstration scripts immediately without running full Docker containers:
 
 ```bash
-# Runnable LangChain / LangGraph Agent Integration Demo
+# 1. 10,000-Node Synthetic Lineage Benchmark Harness
+python examples/generate_synthetic_graph.py
+
+# 2. Transparent MCP Server Proxy Middleware Demo
+python examples/mcp_server_proxy_demo.py
+
+# 3. LangChain / LangGraph Agent Integration Demo
 python examples/langchain_agent_example.py
 
-# Standalone End-to-End Citation Gate & Ledger Demo (Includes Live Tamper Detection Beat & Memory Recall!)
+# 4. End-to-End Citation Gate & Live Tamper Detection Demo
 python examples/mock_mcp_citation_demo.py
 ```
 
@@ -108,28 +92,13 @@ python examples/mock_mcp_citation_demo.py
 
 | Path | Contents |
 |---|---|
-| [`docs/`](file:///z:/home/lx_singw/projects/graphoath/docs/) | 19 Comprehensive documentation modules (Open-Source RFC, Memory Recall, HITL Approvals, Case Study, Brand Clearance, Judge Walkthrough, Architecture, Security, Frameworks, MCP Guide) |
-| [`examples/`](file:///z:/home/lx_singw/projects/graphoath/examples/) | Runnable Python agent scripts (`langchain_agent_example.py`, `mock_mcp_citation_demo.py`), generated receipts (`receipt-schema-break.json`, `receipt-repeat-incident.json`) |
+| [`docs/`](file:///z:/home/lx_singw/projects/graphoath/docs/) | 27 Comprehensive documentation & spec modules (Open-Source RFC, Memory Recall, HITL Approvals, Case Study, Brand Clearance, OTel Spec, Playbooks, EU AI Act, Zero Trust Identity, S3 WORM Backup) |
+| [`examples/`](file:///z:/home/lx_singw/projects/graphoath/examples/) | 4 Runnable Python scripts (`generate_synthetic_graph.py`, `mcp_server_proxy_demo.py`, `langchain_agent_example.py`, `mock_mcp_citation_demo.py`), generated receipts (`receipt-schema-break.json`, `receipt-repeat-incident.json`) |
 | `src/graphoath/` | Python runtime — DataHub client, Deposition pipeline, Custody ledger, API |
 | `src/dashboard/` | Next.js operator dashboard |
 | `tests/` | Unit and integration tests |
 
 Full annotated tree: [`docs/directory-structure.md`](file:///z:/home/lx_singw/projects/graphoath/docs/directory-structure.md).
-
----
-
-## Demo
-
-[Link to the ≤3-minute demo video] · Narrative script & storyboard: [`docs/demo-video-script.md`](file:///z:/home/lx_singw/projects/graphoath/docs/demo-video-script.md)
-
----
-
-## Roadmap beyond this submission
-
-Deposition is the first of six planned modules — Undertow (ML drift detection),
-Prune (cost governance), Rosetta (knowledge capture), ReguLineage (ML
-compliance provenance), and Redline (regulatory exposure tracking) — all
-writing through the same Custody ledger. Full roadmap: [`docs/project-scope.md`](file:///z:/home/lx_singw/projects/graphoath/docs/project-scope.md).
 
 ---
 

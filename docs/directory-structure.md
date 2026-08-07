@@ -42,8 +42,21 @@ graphoath/
 │   ├── functional-memory-recall.md
 │   ├── human-in-the-loop-approval.md
 │   ├── quantified-impact-case-study.md
-│   └── brand-ip-and-community-engagement.md
+│   ├── brand-ip-and-community-engagement.md
+│   ├── automated-remediation-playbooks.md
+│   ├── regulatory-compliance-provenance.md
+│   ├── multi-agent-consensus-gate.md
+│   ├── zero-trust-agent-identity.md
+│   ├── synthetic-datahub-test-harness.md
+│   ├── cost-of-hallucination-calculator.md
+│   ├── open-telemetry-agent-observability.md
+│   ├── roadmap-future-modules.md
+│   ├── datahub-actions-webhook-security.md
+│   ├── disaster-recovery-and-ledger-backup.md
+│   └── contributor-and-maintainer-handbook.md
 ├── examples/
+│   ├── generate_synthetic_graph.py
+│   ├── mcp_server_proxy_demo.py
 │   ├── langchain_agent_example.py
 │   ├── mock_mcp_citation_demo.py
 │   ├── receipt-schema-break.json
