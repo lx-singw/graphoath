@@ -1,16 +1,12 @@
 # DataHub MCP Server & Agent Context Kit Integration Guide
 
-This guide details how **GraphOath** leverages **DataHub's Model Context Protocol (MCP) Server** and **Agent Context Kit** to query lineage, usage, ownership, and governance metadata to ground AI agents in data context.
+This guide details how **GraphOath** leverages **DataHub's Model Context Protocol (MCP) Server**, **Agent Context Kit**, **DataHub Skills**, and **Actions Framework** to query lineage, usage, ownership, quality assertions, and governance metadata to ground AI agents in data context.
 
 ---
 
-## 1. Context Architecture Overview
+## 1. Context Architecture & Coverage Matrix
 
-DataHub provides an open-source Context Platform for AI agents through two main interfaces:
-1. **DataHub MCP Server**: Enables agents to query DataHub tools via standard JSON-RPC protocol over stdio or HTTP.
-2. **DataHub Agent Context Kit**: Python/TypeScript SDK wrappers around DataHub's GraphQL API optimized for agent context retrieval.
-
-GraphOath sits as a **citation-gated control plane middleware** between AI agents and the DataHub Context Platform:
+DataHub provides an open-source Context Platform for AI agents through multiple complementary interfaces. GraphOath sits as a **citation-gated control plane middleware** between AI agents and the DataHub Context Platform:
 
 ```
   ┌─────────────────────────────────────────────────────────────┐
@@ -22,7 +18,7 @@ GraphOath sits as a **citation-gated control plane middleware** between AI agent
   │                  DataHub MCP Server                         │
   │  - search_across_lineage                                    │
   │  - get_dataset_ownership                                    │
-  │  - get_dataset_usage                                        │
+  │  - get_dataset_usage / get_dataset_assertions                │
   └──────────────────────────────┬──────────────────────────────┘
                                  │ Metadata Graph Response
                                  ▼
@@ -38,13 +34,32 @@ GraphOath sits as a **citation-gated control plane middleware** between AI agent
   └─────────────────────────────────────────────────────────────┘
 ```
 
+### DataHub Context Coverage Matrix
+
+| DataHub Platform Primitive | GraphOath Integration Point | Read / Write | Value Delivered |
+| :--- | :--- | :---: | :--- |
+| **MCP Server** | `search_across_lineage`, `get_dataset_ownership`, `get_dataset_usage`, `get_dataset_assertions` | **Read** | Fetches live lineage graph, ownership, & blast radius |
+| **Agent Context Kit** | Python SDK wrappers for GraphQL (`dataset`, `searchAcrossLineage`) | **Read** | Low-latency context resolution |
+| **DataHub Actions** | Real-time `MetadataChangeLog` (MCL) event listener plugin | **Read** | Event-driven automated triage |
+| **Incidents API** | `raiseIncident` GraphQL mutation with assignees | **Write** | Native incident creation |
+| **Custom Aspects** | `graphoathReceipt` aspect attached to DataHub entities | **Write** | Tamper-evident graph provenance |
+| **DataHub Skills** | `skills/graphoath-citation-verification/SKILL.md` package | **Tool** | Pluggable skill for any AI agent framework |
+
 ---
 
-## 2. Key DataHub MCP Tools Consumed by GraphOath
+## 2. DataHub Agent Skill Integration
 
-GraphOath's evidence engine relies on several core MCP tools provided by DataHub:
+GraphOath is packaged as an official DataHub Agent Skill located at [`skills/graphoath-citation-verification/SKILL.md`](file:///z:/home/lx_singw/projects/graphoath/skills/graphoath-citation-verification/SKILL.md).
 
-### 2.1 Lineage Inspection (`search_across_lineage`)
+Any DataHub Analytics Agent, Gemini agent, or Claude model can load GraphOath directly as a native skill to perform zero-trust verification of proposed actions before executing mutations.
+
+---
+
+## 3. Key DataHub MCP Tools & Expanded Context Depth
+
+GraphOath's evidence engine queries multiple DataHub context primitives:
+
+### 3.1 Lineage Inspection (`search_across_lineage`)
 - **Purpose**: Traces downstream dependencies from a changed dataset.
 - **MCP Call Parameters**:
   ```json
@@ -56,34 +71,30 @@ GraphOath's evidence engine relies on several core MCP tools provided by DataHub
   ```
 - **GraphOath Usage**: Builds the list of impacted downstream datasets and dashboards that form the core evidence array.
 
-### 2.2 Ownership Identification (`get_dataset_ownership`)
+### 3.2 Ownership Identification (`get_dataset_ownership`)
 - **Purpose**: Identifies responsible engineers and teams for downstream assets.
-- **MCP Call Parameters**:
-  ```json
-  {
-    "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.finance_monthly,PROD)"
-  }
-  ```
 - **GraphOath Usage**: Populates the `assignees` parameter on native DataHub Incidents (`raiseIncident`).
 
-### 2.3 Usage & Blast Radius (`get_dataset_usage`)
+### 3.3 Usage & Blast Radius (`get_dataset_usage`)
 - **Purpose**: Retrieves query volume and active user count for affected datasets.
-- **MCP Call Parameters**:
-  ```json
-  {
-    "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.finance_monthly,PROD)"
-  }
-  ```
 - **GraphOath Usage**: Computes impact severity to ensure triage incidents are prioritized correctly.
+
+### 3.4 Data Quality Assertions (`get_dataset_assertions`)
+- **Purpose**: Checks passing/failing status of data quality tests.
+- **GraphOath Usage**: Prevents agents from executing downstream pipeline jobs if upstream assertions are failing.
+
+### 3.5 Glossary Terms & Governance Tags (`get_dataset_tags`)
+- **Purpose**: Inspects PII classification and tiering.
+- **GraphOath Usage**: Blocks destructive agent actions targeted at `PII` or `Tier-1-Core` datasets without human approval.
 
 ---
 
-## 3. Emitting Receipts back to DataHub Graph
+## 4. Emitting Receipts & Lineage Graph Visibility
 
 Once GraphOath verifies a claim, it writes the evidence trail back into DataHub using DataHub's metadata change proposal API (`emitMetadataChangeProposal`).
 
-### 3.1 Custom Aspect: `graphoathReceipt`
-GraphOath defines a custom aspect on DataHub entities:
+### 4.1 Custom Aspect: `graphoathReceipt`
+GraphOath defines a custom aspect attached to DataHub entities:
 
 ```json
 {
@@ -104,16 +115,17 @@ GraphOath defines a custom aspect on DataHub entities:
 }
 ```
 
-This attaches the evidence payload directly to the DataHub entity, allowing future agents querying DataHub via MCP to inspect the receipt history.
+### 4.2 Web UI Lineage Graph Visibility
+In addition to writing the receipt aspect, GraphOath emits bi-directional lineage edges between the `urn:li:incident:...` and the source `urn:li:dataset:...`. This ensures that anyone inspecting the dataset inside **DataHub's Web UI** sees the GraphOath Incident and Evidence Receipt right inside the interactive graph.
 
 ---
 
-## 4. Configuration & Troubleshooting
+## 5. Configuration & Troubleshooting
 
 To enable DataHub MCP integration in GraphOath:
 
 1. Ensure DataHub v0.14+ is running with GMS GraphQL enabled.
-2. Set the following environment variables in `.env`:
+2. Set environment variables in `.env`:
    ```bash
    DATAHUB_GMS_URL=http://localhost:8080
    DATAHUB_TOKEN=your_datahub_pat_token

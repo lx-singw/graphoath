@@ -1,0 +1,15 @@
+app:
+  environment: "production"
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins:
+    - "https://dashboard.graphoath.example.com"
+
+datahub:
+  gms_url: "${DATAHUB_GMS_URL}"
+  timeout_seconds: 15
+
+custody:
+  hash_algorithm: "sha256"

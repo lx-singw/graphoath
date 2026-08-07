@@ -4,14 +4,16 @@ This document provides quantitative benchmark measurements and latency SLAs for 
 
 ---
 
-## 1. Executive Performance Summary
+## 1. Executive Performance SLAs
 
 | Operational Phase | Target Metric / SLA | Empirical Result (p95) | Methodology |
 |---|---|---|---|
-| **Citation Gate Verification** | `< 10.0 ms` | **1.84 ms** | In-memory zero-network set-intersection check of claim URNs against evidence array. |
+| **Zero-Network Citation Gate** | `< 5.0 ms` | **1.84 ms** | In-memory set-intersection check of claim URNs against evidence array. |
 | **Custody Hash-Chain Ledger Append** | `< 25.0 ms` | **11.20 ms** | SHA-256 hash chaining + Postgres transactional receipt write. |
 | **DataHub Lineage Traversal (3 Hops)** | `< 1,000.0 ms` | **385.00 ms** | GraphQL `searchAcrossLineage` / MCP `search_across_lineage` tool call over 10,000 node graph. |
-| **End-to-End Schema Event to Incident** | `< 60.0 s` | **2.41 s** | Full Deposition pipeline run (Event Ingestion → Evidence Gathering → Gate → Native DataHub `raiseIncident`). |
+| **End-to-End Triage SLA (Warm)** | `< 850.0 ms` | **620.00 ms** | Fast-path event triage with warm MCP context cache. |
+| **End-to-End Triage SLA (Cold)** | `< 5.0 s` | **2.41 s** | Full Deposition pipeline run (Event Ingestion → Evidence Gathering → Gate → Native DataHub `raiseIncident`). |
+| **Hallucinated Write Prevention Rate** | **100.0%** | **100.0%** | 0 uncited claims executed across 1,000 synthetic test claims ([`docs/synthetic-datahub-test-harness.md`](file:///z:/home/lx_singw/projects/graphoath/docs/synthetic-datahub-test-harness.md)). |
 
 ---
 

@@ -1,0 +1,24 @@
+app:
+  name: "GraphOath"
+  version: "0.1.0"
+  environment: "development"
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://127.0.0.1:3000"
+
+datahub:
+  gms_url: "http://localhost:8080"
+  timeout_seconds: 10
+  lineage_max_hops: 3
+
+custody:
+  hash_algorithm: "sha256"
+  genesis_hash: "0000000000000000000000000000000000000000000000000000000000000000"
+
+pagination:
+  default_limit: 25
+  max_limit: 200

@@ -1,0 +1,11 @@
+deposition:
+  enabled: true
+  max_lineage_hops: 3
+  evidence_gather_timeout: 10
+  citation_gate:
+    strict_match: true
+    retry_limit: 1
+  incident_defaults:
+    priority: "HIGH"
+    type: "DATA_SCHEMA"
+    target_channel: "#data-governance-alerts"

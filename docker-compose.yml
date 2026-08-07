@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: graphoath-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-graphoath}
+      POSTGRES_USER: ${POSTGRES_USER:-graphoath_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-graphoath_secret_key}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./src/graphoath/db/migrations/0001_initial.sql:/docker-entrypoint-initdb.d/0001_initial.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-graphoath_user} -d ${POSTGRES_DB:-graphoath}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: deployments/Dockerfile.api
+    container_name: graphoath-api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-graphoath_user}:${POSTGRES_PASSWORD:-graphoath_secret_key}@postgres:5432/${POSTGRES_DB:-graphoath}
+      - DATAHUB_GMS_URL=${DATAHUB_GMS_URL:-http://localhost:8080}
+      - DATAHUB_TOKEN=${DATAHUB_TOKEN:-dev-token}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-dev-jwt-secret-key-change-in-production}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  dashboard:
+    build:
+      context: ./src/dashboard
+      dockerfile: Dockerfile
+    container_name: graphoath-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

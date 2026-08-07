@@ -1,0 +1,22 @@
+{
+  "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,ecommerce.fct_orders,PROD)",
+  "removed_field": "customer_region",
+  "lineage": [
+    {
+      "urn": "urn:li:dashboard:(looker,churn-overview)",
+      "hops": 2,
+      "type": "dashboard"
+    },
+    {
+      "urn": "urn:li:mlFeatureTable:(churn_model_v3,region_bucket)",
+      "hops": 1,
+      "type": "mlFeatureTable"
+    }
+  ],
+  "ownership": {
+    "team": "team-growth-analytics"
+  },
+  "usage": {
+    "weekly_queries": 340
+  }
+}

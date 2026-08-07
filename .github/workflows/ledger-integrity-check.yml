@@ -1,0 +1,27 @@
+name: Ledger Integrity Check
+
+on:
+  schedule:
+    - cron: "0 2 * * *" # Runs nightly at 02:00 UTC
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Ledger Hash-Chain Verification
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+        run: |
+          python scripts/verify_ledger_integrity.py --verify-all

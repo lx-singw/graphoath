@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-graphoath}
+      POSTGRES_USER: ${POSTGRES_USER:-graphoath_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-graphoath_secret}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ../src/graphoath/db/migrations/0001_initial.sql:/docker-entrypoint-initdb.d/0001_initial.sql
+
+  api:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile.api
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-graphoath_user}:${POSTGRES_PASSWORD:-graphoath_secret}@postgres:5432/${POSTGRES_DB:-graphoath}
+      - DATAHUB_GMS_URL=${DATAHUB_GMS_URL}
+      - DATAHUB_TOKEN=${DATAHUB_TOKEN}
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
