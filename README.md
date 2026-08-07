@@ -1,5 +1,11 @@
 # GraphOath
 
+[![CI](https://github.com/lx-singw/graphoath/actions/workflows/ci.yml/badge.svg)](https://github.com/lx-singw/graphoath/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-3.12%2B-blue)](https://www.python.org/)
+[![DataHub](https://img.shields.io/badge/DataHub-v0.14%2B-orange)](https://datahubproject.io/)
+[![Hackathon](https://img.shields.io/badge/Hackathon-Build_with_DataHub-purple)](https://datahubproject.io/)
+
 **The citation-gated control plane for AI agents acting on DataHub.**
 
 GraphOath sits between autonomous agents and your DataHub metadata graph. Before any agent-initiated claim becomes an action — an incident, a Slack notification, a write-back to the graph — every named entity in that claim must resolve to a specific, queryable fact in DataHub. No evidence, no action. Every action that does execute is permanently recorded in a tamper-evident ledger.
@@ -7,6 +13,7 @@ GraphOath sits between autonomous agents and your DataHub metadata graph. Before
 > [!IMPORTANT]
 > **We Composed — We Didn't Rebuild!**  
 > GraphOath extends DataHub natively. It does **not** create a parallel incident tracker or custom metadata catalog. It raises native DataHub Incidents (`raiseIncident`) and attaches evidence receipts back to DataHub entity URNs as a custom `graphoathReceipt` aspect via `emitMetadataChangeProposal`.
+
 
 ---
 
