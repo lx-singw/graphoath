@@ -38,7 +38,11 @@ graphoath/
 │   ├── benchmarks-and-performance.md
 │   ├── edge-cases-and-resilience.md
 │   ├── demo-video-script.md
-│   └── datahub-rfc-citation-gate.md
+│   ├── datahub-rfc-citation-gate.md
+│   ├── functional-memory-recall.md
+│   ├── human-in-the-loop-approval.md
+│   ├── quantified-impact-case-study.md
+│   └── brand-ip-and-community-engagement.md
 ├── examples/
 │   ├── langchain_agent_example.py
 │   ├── mock_mcp_citation_demo.py
