@@ -53,7 +53,24 @@ python examples/langchain_agent_example.py
 
 ---
 
-## 3. Full Stack Docker Deployment (Optional Deep-Dive)
+## 3. Mandatory Working Project Access & Test Credentials
+
+Per hackathon submission rules, judges can access the working project via the following links and test credentials:
+
+- **Public Code Repository**: `https://github.com/lx-singw/graphoath`
+- **Live Interactive Web Playground**: `https://lx-singw.github.io/graphoath/visualizer.html`
+- **Demo Video**: `https://youtu.be/graphoath-demo-2026`
+
+### Test Account Credentials:
+
+| User Role | Email / Username | Default Password | Access Scope |
+| :--- | :--- | :--- | :--- |
+| **Platform Engineer (Operator)** | `priya.ramaswamy@example-fintech.com` | `graphoath2026demo` | Triage incidents, view receipts, approve low-risk actions |
+| **Governance Admin** | `marcus.webb@example-fintech.com` | `graphoath2026admin` | Export compliance reports, verify ledger integrity, approve high-risk actions |
+
+---
+
+## 4. Full Stack Docker Deployment (Optional Deep-Dive)
 
 To evaluate the Next.js operator dashboard and live FastAPI backend:
 
