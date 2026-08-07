@@ -20,9 +20,13 @@ duplicating them — with the full evidence trail attached as a linked receipt.
 
 Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Agent Hackathon**.
 
+- **Judge's 3-Minute Quick-Evaluation Guide**: [`docs/judge-walkthrough.md`](file:///z:/home/lx_singw/projects/graphoath/docs/judge-walkthrough.md)
 - **Hackathon Evaluation Blueprint & Criteria Matrix**: [`docs/hackathon-alignment.md`](file:///z:/home/lx_singw/projects/graphoath/docs/hackathon-alignment.md)
+- **Empirical Benchmarks & Latency SLAs**: [`docs/benchmarks-and-performance.md`](file:///z:/home/lx_singw/projects/graphoath/docs/benchmarks-and-performance.md)
+- **Edge Cases & System Resilience Matrix**: [`docs/edge-cases-and-resilience.md`](file:///z:/home/lx_singw/projects/graphoath/docs/edge-cases-and-resilience.md)
 - **AI Framework Integration Guide (LangChain / LangGraph / ADK)**: [`docs/framework-integrations.md`](file:///z:/home/lx_singw/projects/graphoath/docs/framework-integrations.md)
-- **DataHub MCP Server & Context Kit Integration**: [`docs/mcp-context-kit-guide.md`](file:///z:/home/lx_singw/projects/graphoath/docs/mcp-context-kit-guide.md)
+- **DataHub MCP Server & Context Kit Guide**: [`docs/mcp-context-kit-guide.md`](file:///z:/home/lx_singw/projects/graphoath/docs/mcp-context-kit-guide.md)
+- **3-Minute Demo Video Script & Storyboard**: [`docs/demo-video-script.md`](file:///z:/home/lx_singw/projects/graphoath/docs/demo-video-script.md)
 - **Runnable Agent Code Examples**: [`examples/`](file:///z:/home/lx_singw/projects/graphoath/examples/)
 
 ---
@@ -84,7 +88,7 @@ python examples/mock_mcp_citation_demo.py
 
 | Path | Contents |
 |---|---|
-| [`docs/`](file:///z:/home/lx_singw/projects/graphoath/docs/) | Comprehensive documentation (Vision, PRD, Architecture, Security, Hackathon Alignment, Framework Integrations, MCP Guide) |
+| [`docs/`](file:///z:/home/lx_singw/projects/graphoath/docs/) | 14 Comprehensive documentation modules (Judge Walkthrough, Alignment, Architecture, Performance, Security, Frameworks, MCP Guide) |
 | [`examples/`](file:///z:/home/lx_singw/projects/graphoath/examples/) | Runnable Python agent scripts (`langchain_agent_example.py`, `mock_mcp_citation_demo.py`) and generated receipt payloads |
 | `src/graphoath/` | Python runtime — DataHub client, Deposition pipeline, Custody ledger, API |
 | `src/dashboard/` | Next.js operator dashboard |
@@ -96,7 +100,7 @@ Full annotated tree: [`docs/directory-structure.md`](file:///z:/home/lx_singw/pr
 
 ## Demo
 
-[Link to the ≤3-minute demo video]
+[Link to the ≤3-minute demo video] · Narrative script & storyboard: [`docs/demo-video-script.md`](file:///z:/home/lx_singw/projects/graphoath/docs/demo-video-script.md)
 
 ---
 

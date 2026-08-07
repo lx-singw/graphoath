@@ -33,7 +33,11 @@ graphoath/
 │   ├── contributing.md
 │   ├── hackathon-alignment.md
 │   ├── framework-integrations.md
-│   └── mcp-context-kit-guide.md
+│   ├── mcp-context-kit-guide.md
+│   ├── judge-walkthrough.md
+│   ├── benchmarks-and-performance.md
+│   ├── edge-cases-and-resilience.md
+│   └── demo-video-script.md
 ├── examples/
 │   ├── langchain_agent_example.py
 │   ├── mock_mcp_citation_demo.py
