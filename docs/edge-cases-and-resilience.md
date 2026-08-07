@@ -46,4 +46,5 @@ If PostgreSQL experience silent row modification or malicious tampering:
 To prevent incident flooding during massive pipeline re-runs (e.g. 50 dbt models failing simultaneously):
 
 - **De-duplication Window**: Deposition checks if an open DataHub Incident already exists for a dataset URN within a 15-minute window. If found, it appends evidence to the existing incident via `updateIncident` instead of creating 50 duplicate incidents.
-- **Circuit Breaker**: If outbound DataHub mutations fail 5 consecutive times, the action layer trips and queues receipts locally until health checks pass.
+- **Circuit Breaker Module (`graphoath/resilience.py`)**: Implemented in `GraphTraversalCircuitBreaker` (hard cap at 3 hops / 1,000 nodes) and `@retry_with_backoff` decorator (jittered exponential backoff for GMS GraphQL calls). If outbound DataHub mutations fail 5 consecutive times, the action layer trips and queues receipts locally until health checks pass.
+

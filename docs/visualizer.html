@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GraphOath — Interactive Architecture System Visualizer</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0b0f19; color: #f8fafc; margin: 0; padding: 2rem; }
+        .header { text-align: center; border-bottom: 1px solid #1e293b; padding-bottom: 1.5rem; }
+        .flow-container { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 3rem auto; gap: 1rem; }
+        .box { background: #1e293b; border: 2px solid #3b82f6; border-radius: 0.75rem; padding: 1.5rem; width: 220px; text-align: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
+        .box h3 { color: #60a5fa; margin-top: 0; }
+        .arrow { font-size: 2rem; color: #10b981; font-weight: bold; }
+        .highlight { border-color: #10b981; background: #064e3b; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛡️ GraphOath — Interactive System Architecture Map</h1>
+        <p>Zero-Trust Metadata Control Plane Architecture (ZMCPA) for DataHub AI Agents</p>
+    </div>
+    <div class="flow-container">
+        <div class="box">
+            <h3>1. Event Ingestion</h3>
+            <p>DataHub Actions Framework emits <code>MetadataChangeLog_v1</code></p>
+        </div>
+        <div class="arrow">➔</div>
+        <div class="box">
+            <h3>2. Evidence Engine</h3>
+            <p>DataHub MCP Server queries Lineage, Ownership, & Assertions</p>
+        </div>
+        <div class="arrow">➔</div>
+        <div class="box highlight">
+            <h3>3. Citation Gate</h3>
+            <p>Zero-Network Local Check<br><code>Ref(Claims) ⊆ Ref(Evidence)</code></p>
+        </div>
+        <div class="arrow">➔</div>
+        <div class="box">
+            <h3>4. Native Action</h3>
+            <p>Emits DataHub <code>raiseIncident</code> & <code>graphoathReceipt</code> aspect</p>
+        </div>
+    </div>
+</body>
+</html>

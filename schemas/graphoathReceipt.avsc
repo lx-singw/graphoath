@@ -1,0 +1,51 @@
+{
+  "type": "record",
+  "name": "graphoathReceipt",
+  "namespace": "com.linkedin.pegasus2avro.dataset",
+  "doc": "Tamper-evident evidence receipt aspect for agent-initiated DataHub write actions.",
+  "fields": [
+    {
+      "name": "receiptId",
+      "type": "string",
+      "doc": "Unique identifier for the custody receipt (e.g. rcpt_98f4a12b)."
+    },
+    {
+      "name": "timestampMillis",
+      "type": "long",
+      "doc": "Epoch timestamp in milliseconds when the receipt was created."
+    },
+    {
+      "name": "agentModule",
+      "type": "string",
+      "doc": "GraphOath agent module name (e.g. Deposition)."
+    },
+    {
+      "name": "sourceEntityUrn",
+      "type": "string",
+      "doc": "DataHub URN of the root-cause dataset or asset."
+    },
+    {
+      "name": "claimText",
+      "type": "string",
+      "doc": "Agent proposed claim statement verified by the Citation Gate."
+    },
+    {
+      "name": "evidenceUrns",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "doc": "Array of DataHub URNs forming the evidence graph."
+    },
+    {
+      "name": "citationResolutionRate",
+      "type": "float",
+      "doc": "Fraction of cited URNs resolved against DataHub context (1.0 = 100% verified)."
+    },
+    {
+      "name": "ledgerHash",
+      "type": "string",
+      "doc": "SHA-256 hash chaining this receipt to the Postgres Custody ledger."
+    }
+  ]
+}

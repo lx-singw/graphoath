@@ -127,3 +127,36 @@ as unsafe for production use.
 - [ ] Dependency vulnerability scanning (`pip-audit` and `npm audit`) run in CI
       on every pull request, blocking merge on any `high` or `critical`
       finding without an explicit, reviewed suppression.
+
+---
+
+## 4. Live Ledger Verification API Specification (`GET /api/v1/ledger/verify`)
+
+The Custody Ledger's SHA-256 hash-chain integrity is verified via `GET /api/v1/ledger/verify` (implemented in `graphoath/ledger_verify.py` and tested in [`tests/test_ledger_tamper.py`](file:///z:/home/lx_singw/projects/graphoath/tests/test_ledger_tamper.py)).
+
+### Endpoint Response (Intact Ledger)
+```json
+{
+  "status": "HEALTHY",
+  "is_valid": true,
+  "verified_receipt_count": 1403,
+  "head_ledger_hash": "0c15e57b87c3fa3cd2097bd977f9b76874ef52080f883bd99e5467c4bf03672d",
+  "message": "Ledger verified successfully across 1403 receipt(s)."
+}
+```
+
+### Endpoint Response (Tampered Ledger Detected)
+```json
+{
+  "status": "CORRUPTED",
+  "is_valid": false,
+  "corrupted_index": 1402,
+  "head_ledger_hash": "05336fa40e9416412d21651f0b0ce1c6df4fb6c07e0d8d1e52467db4cef20469",
+  "message": "Hash mismatch at index 1402! Computed: 05336fa4..., Stored: 0c15e57b..."
+}
+```
+
+When a breach is detected:
+1. All automated agent write permissions are instantly frozen by GraphOath.
+2. A PagerDuty governance incident is dispatched to `governance_admin` users.
+
