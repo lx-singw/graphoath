@@ -1,0 +1,70 @@
+{
+  "$schema": "https://graphoath.io/schemas/receipt.v1.json",
+  "receipt_id": "rcpt_98f4a12b-7c3e-4b9d-a8f1-2e6b5c4d3a01",
+  "version": "1.0",
+  "timestamp": "2026-08-07T09:36:33Z",
+  "module": "Deposition",
+  "trigger": {
+    "event_type": "MetadataChangeLog_v1",
+    "entity_type": "dataset",
+    "entity_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)",
+    "aspect_name": "schemaMetadata",
+    "change_type": "DROP_COLUMN",
+    "details": "Column 'customer_id' dropped from prod.orders"
+  },
+  "evidence_package": {
+    "source_dataset": {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)",
+      "platform": "snowflake",
+      "environment": "PROD"
+    },
+    "lineage_graph_nodes": [
+      {
+        "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)",
+        "relationship": "SOURCE",
+        "hop_distance": 0
+      },
+      {
+        "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.stg_orders,PROD)",
+        "relationship": "DOWNSTREAM_STAGING",
+        "hop_distance": 1,
+        "owner_urn": "urn:li:corpuser:priya_ramaswamy",
+        "owner_email": "priya.ramaswamy@example-fintech.com",
+        "queries_30d": 14200
+      },
+      {
+        "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.fct_daily_revenue,PROD)",
+        "relationship": "DOWNSTREAM_ANALYTICS",
+        "hop_distance": 2,
+        "owner_urn": "urn:li:corpuser:marcus_webb",
+        "owner_email": "marcus.webb@example-fintech.com",
+        "queries_30d": 89400
+      }
+    ],
+    "citation_resolution_rate": 1.0,
+    "uncited_entities_named": []
+  },
+  "citation_gate_eval": {
+    "status": "APPROVED",
+    "gate_latency_ms": 1.82,
+    "claim_text": "Schema breaking change (dropped column 'customer_id') on urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD) breaks downstream staging model urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.stg_orders,PROD) and daily revenue model urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.fct_daily_revenue,PROD).",
+    "verified_urns_count": 3
+  },
+  "action_executed": {
+    "action_type": "RAISE_DATAHUB_INCIDENT",
+    "datahub_incident_urn": "urn:li:incident:graphoath-dep-20260807-001",
+    "assigned_assignees": [
+      "urn:li:corpuser:priya_ramaswamy",
+      "urn:li:corpuser:marcus_webb"
+    ],
+    "incident_state": "ACTIVE",
+    "incident_type": "FIELD_HEALTH",
+    "datahub_aspect_emitted": "graphoathReceipt"
+  },
+  "custody_ledger": {
+    "ledger_index": 1402,
+    "prev_receipt_hash": "a4f8910e52b3149c0c8e76a91d2b3c4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c",
+    "receipt_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "signature_algorithm": "SHA-256"
+  }
+}

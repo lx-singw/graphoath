@@ -37,12 +37,13 @@ graphoath/
 │   ├── judge-walkthrough.md
 │   ├── benchmarks-and-performance.md
 │   ├── edge-cases-and-resilience.md
-│   └── demo-video-script.md
+│   ├── demo-video-script.md
+│   └── datahub-rfc-citation-gate.md
 ├── examples/
 │   ├── langchain_agent_example.py
 │   ├── mock_mcp_citation_demo.py
 │   ├── receipt-schema-break.json
-│   ├── receipt-cost-audit.json
+│   ├── receipt-repeat-incident.json
 │   └── screenshots/
 │       ├── datahub-incident.png
 │       └── slack-notification.png

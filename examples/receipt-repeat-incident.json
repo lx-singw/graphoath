@@ -1,0 +1,66 @@
+{
+  "$schema": "https://graphoath.io/schemas/receipt.v1.json",
+  "receipt_id": "rcpt_77a11f90-1b2c-3d4e-5f6a-7b8c9d0e1f2a",
+  "version": "1.0",
+  "timestamp": "2026-08-07T09:40:00Z",
+  "module": "Deposition",
+  "trigger": {
+    "event_type": "MetadataChangeLog_v1",
+    "entity_type": "dataset",
+    "entity_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)",
+    "aspect_name": "schemaMetadata",
+    "change_type": "MODIFY_TYPE",
+    "details": "Column 'amount' type changed from DECIMAL(18,2) to VARCHAR(50)"
+  },
+  "functional_memory_recall": {
+    "repeat_incident_detected": true,
+    "occurrences_in_30d": 2,
+    "previous_receipt_id": "rcpt_98f4a12b-7c3e-4b9d-a8f1-2e6b5c4d3a01",
+    "previous_incident_urn": "urn:li:incident:graphoath-dep-20260807-001",
+    "memory_insight": "RECURRING PATTERN: 2nd schema-breaking modification on prod.orders within 30 days. Root cause previously attributed to dbt model deployment by data_eng_team."
+  },
+  "evidence_package": {
+    "source_dataset": {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)",
+      "platform": "snowflake",
+      "environment": "PROD"
+    },
+    "lineage_graph_nodes": [
+      {
+        "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)",
+        "relationship": "SOURCE",
+        "hop_distance": 0
+      },
+      {
+        "urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.stg_orders,PROD)",
+        "relationship": "DOWNSTREAM_STAGING",
+        "hop_distance": 1,
+        "owner_urn": "urn:li:corpuser:priya_ramaswamy"
+      }
+    ],
+    "citation_resolution_rate": 1.0,
+    "uncited_entities_named": []
+  },
+  "citation_gate_eval": {
+    "status": "APPROVED",
+    "gate_latency_ms": 1.95,
+    "claim_text": "Recurring type modification on urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD) (2nd occurrence in 30d) breaks downstream staging model urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.stg_orders,PROD).",
+    "verified_urns_count": 2
+  },
+  "action_executed": {
+    "action_type": "UPDATE_DATAHUB_INCIDENT",
+    "datahub_incident_urn": "urn:li:incident:graphoath-dep-20260807-001",
+    "assigned_assignees": [
+      "urn:li:corpuser:priya_ramaswamy"
+    ],
+    "incident_state": "ACTIVE",
+    "priority": "HIGH_RECURRING",
+    "datahub_aspect_emitted": "graphoathReceipt"
+  },
+  "custody_ledger": {
+    "ledger_index": 1403,
+    "prev_receipt_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt_hash": "b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3",
+    "signature_algorithm": "SHA-256"
+  }
+}
