@@ -14,9 +14,18 @@ evidence package, and raises a **native DataHub Incident** — composing with
 DataHub's existing Incident entity and Actions framework rather than
 duplicating them — with the full evidence trail attached as a linked receipt.
 
-## Hackathon track
+---
 
-Submitted under **Agents That Do Real Work**.
+## DataHub Agent Hackathon Submission
+
+Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Agent Hackathon**.
+
+- **Hackathon Evaluation Blueprint & Criteria Matrix**: [`docs/hackathon-alignment.md`](file:///z:/home/lx_singw/projects/graphoath/docs/hackathon-alignment.md)
+- **AI Framework Integration Guide (LangChain / LangGraph / ADK)**: [`docs/framework-integrations.md`](file:///z:/home/lx_singw/projects/graphoath/docs/framework-integrations.md)
+- **DataHub MCP Server & Context Kit Integration**: [`docs/mcp-context-kit-guide.md`](file:///z:/home/lx_singw/projects/graphoath/docs/mcp-context-kit-guide.md)
+- **Runnable Agent Code Examples**: [`examples/`](file:///z:/home/lx_singw/projects/graphoath/examples/)
+
+---
 
 ## The problem
 
@@ -24,27 +33,26 @@ Enterprise data teams lose a large share of engineering capacity to pipeline
 firefighting and schema-drift maintenance, and AI-authored changes are trusted
 and merged at roughly a third the rate of human-authored ones — not because the
 agents are unhelpful, but because nothing forces an agent's claim to be
-checkable before it's acted on. See `docs/vision.md` for the full problem
+checkable before it's acted on. See [`docs/vision.md`](file:///z:/home/lx_singw/projects/graphoath/docs/vision.md) for the full problem
 statement and supporting research.
+
+---
 
 ## How it uses DataHub
 
-- **Lineage, ownership, usage, and glossary queries** via the DataHub GraphQL
-  API / Agent Context Kit, to build the evidence array behind every claim.
-- **Native `raiseIncident` / `updateIncident` mutations** — Deposition does not
-  build a parallel incident system; it extends DataHub's own Incident entity.
-- **`emitMetadataChangeProposal`** to attach the receipt as a custom
-  `graphoathReceipt` aspect, linked to the incident by urn, so the evidence
-  trail is part of the graph itself and queryable by any future agent.
-- **DataHub Actions framework** as the event source triggering Deposition on a
-  schema or deprecation change.
+- **Lineage, ownership, usage, and glossary queries** via the **DataHub MCP Server** and **Agent Context Kit** GraphQL API, to build the evidence array behind every claim.
+- **Native `raiseIncident` / `updateIncident` mutations** — Deposition does not build a parallel incident system; it extends DataHub's own Incident entity.
+- **`emitMetadataChangeProposal`** to attach the receipt as a custom `graphoathReceipt` aspect, linked to the incident by URN, so the evidence trail is part of the graph itself and queryable by any future agent.
+- **DataHub Actions framework** as the event source triggering Deposition on a schema or deprecation change.
 
-Full architecture, data flow, and an ASCII infrastructure diagram: `docs/architecture.md`.
+Full architecture, data flow, and an ASCII infrastructure diagram: [`docs/architecture.md`](file:///z:/home/lx_singw/projects/graphoath/docs/architecture.md).
+
+---
 
 ## Quick start
 
 Full setup instructions, environment variables, and a troubleshooting matrix
-live in `docs/installation.md`. Short version:
+live in [`docs/installation.md`](file:///z:/home/lx_singw/projects/graphoath/docs/installation.md). Short version:
 
 ```bash
 cp .env.example .env               # fill in DataHub + Slack + DB credentials
@@ -56,28 +64,50 @@ docker compose up
 
 Dashboard: `http://localhost:3000` · API: `http://localhost:8000/api`
 
+---
+
+## Runnable Demonstration Scripts
+
+Judges can execute standalone demonstration scripts immediately without running full Docker containers:
+
+```bash
+# Runnable LangChain / LangGraph Agent Integration Demo
+python examples/langchain_agent_example.py
+
+# Standalone End-to-End Citation Gate & Ledger Demo
+python examples/mock_mcp_citation_demo.py
+```
+
+---
+
 ## What's in this repo
 
 | Path | Contents |
 |---|---|
-| `docs/` | Vision, PRD, architecture, API reference, security, and contributing docs |
-| `src/graphoath/` | Python runtime — DataHub client, the Deposition pipeline, Custody ledger, API |
+| [`docs/`](file:///z:/home/lx_singw/projects/graphoath/docs/) | Comprehensive documentation (Vision, PRD, Architecture, Security, Hackathon Alignment, Framework Integrations, MCP Guide) |
+| [`examples/`](file:///z:/home/lx_singw/projects/graphoath/examples/) | Runnable Python agent scripts (`langchain_agent_example.py`, `mock_mcp_citation_demo.py`) and generated receipt payloads |
+| `src/graphoath/` | Python runtime — DataHub client, Deposition pipeline, Custody ledger, API |
 | `src/dashboard/` | Next.js operator dashboard |
-| `examples/` | Real, generated receipts and screenshots from this submission |
 | `tests/` | Unit and integration tests |
 
-Full annotated tree: `docs/directory-structure.md`.
+Full annotated tree: [`docs/directory-structure.md`](file:///z:/home/lx_singw/projects/graphoath/docs/directory-structure.md).
+
+---
 
 ## Demo
 
 [Link to the ≤3-minute demo video]
+
+---
 
 ## Roadmap beyond this submission
 
 Deposition is the first of six planned modules — Undertow (ML drift detection),
 Prune (cost governance), Rosetta (knowledge capture), ReguLineage (ML
 compliance provenance), and Redline (regulatory exposure tracking) — all
-writing through the same Custody ledger. Full roadmap: `docs/project-scope.md`.
+writing through the same Custody ledger. Full roadmap: [`docs/project-scope.md`](file:///z:/home/lx_singw/projects/graphoath/docs/project-scope.md).
+
+---
 
 ## License
 

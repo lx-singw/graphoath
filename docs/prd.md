@@ -59,6 +59,8 @@
   that require human approval before execution.
 - **FR-7:** The system shall expose a dashboard view for any receipt, showing
   the claim, evidence array, and resulting action in human-readable form.
+- **FR-8:** The system shall provide tool wrappers compatible with AI agent frameworks (LangChain, LangGraph, LlamaIndex, Google ADK) to intercept proposed write actions.
+- **FR-9:** The system shall support querying DataHub metadata via the DataHub MCP Server protocol and Agent Context Kit.
 
 ## 4. Non-Functional Requirements
 

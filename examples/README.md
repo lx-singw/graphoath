@@ -1,19 +1,41 @@
-# Examples
+# GraphOath — Examples & Demonstration Scripts
 
-This folder holds real, generated output from GraphOath — not hand-written
-samples — per the hackathon's recommendation to include sample outputs judges
-can review without running the project themselves.
+This folder contains real generated output and runnable demonstration scripts for **GraphOath**, provided for judges and evaluators to test and review the citation gate mechanics and DataHub integrations.
 
-Once Deposition is running end-to-end against the DataHub showcase-ecommerce
-datapack, replace this file by adding:
+---
 
-- `receipt-schema-break.json` — a full receipt generated from a real schema-break
-  run, matching the shape documented in `docs/api-reference.md` under
-  `GET /receipts/{receipt_id}`.
-- A second receipt from a different scenario, to show the citation gate
-  handling more than one case.
-- `screenshots/datahub-incident.png` — the resulting native DataHub Incident.
-- `screenshots/slack-notification.png` — the Slack message produced by the run.
+## 1. Runnable Agent Demonstration Scripts
 
-Do not hand-write these — generate them from an actual run and drop the real
-output here, so what a judge sees here matches what the demo video shows.
+### `langchain_agent_example.py`
+A runnable Python script demonstrating how an AI agent built with **LangChain / LangGraph**:
+1. Fetches metadata context (lineage graph & URNs) from DataHub.
+2. Attempts an **uncited/hallucinated claim** (which is caught and blocked by GraphOath's Citation Gate).
+3. Produces a **valid cited claim**, which passes the gate and generates a native DataHub Incident payload and hash-chained Custody receipt.
+
+**To Run**:
+```bash
+python examples/langchain_agent_example.py
+```
+
+---
+
+### `mock_mcp_citation_demo.py`
+A standalone, zero-dependency Python script demonstrating the end-to-end event flow:
+- Ingesting a DataHub `MetadataChangeLog` schema change event.
+- Lineage traversal and evidence array assembly.
+- Deterministic zero-network citation verification.
+- Tamper-evident SHA-256 hash-chain receipt emission.
+
+**To Run**:
+```bash
+python examples/mock_mcp_citation_demo.py
+```
+
+---
+
+## 2. Sample Output Files (Generated Receipts)
+
+When Deposition runs against a live DataHub instance (e.g. `showcase-ecommerce` datapack), full generated receipts are produced under:
+- `receipt-schema-break.json` — A full receipt payload matching the `GET /receipts/{receipt_id}` REST API specification.
+- `screenshots/datahub-incident.png` — Screenshot of the native DataHub Incident raised by GraphOath (`raiseIncident`).
+- `screenshots/slack-notification.png` — Screenshot of the human approval workflow notification posted to Slack.

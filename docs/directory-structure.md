@@ -30,8 +30,13 @@ graphoath/
 │   ├── api-reference.md
 │   ├── installation.md
 │   ├── security.md
-│   └── contributing.md
+│   ├── contributing.md
+│   ├── hackathon-alignment.md
+│   ├── framework-integrations.md
+│   └── mcp-context-kit-guide.md
 ├── examples/
+│   ├── langchain_agent_example.py
+│   ├── mock_mcp_citation_demo.py
 │   ├── receipt-schema-break.json
 │   ├── receipt-cost-audit.json
 │   └── screenshots/

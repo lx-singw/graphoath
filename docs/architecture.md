@@ -58,7 +58,7 @@ Each module implements the same four-stage interface:
 4. **Action** — executes the DataHub write (e.g., `raiseIncident`) and, in the
    same transaction, writes the resulting receipt to Custody.
 
-### 2.5 DataHub Integration Layer
+### 2.5 DataHub Integration Layer & AI Framework Support
 
 A single Python package (`src/graphoath/datahub/`) wrapping all outbound calls
 to DataHub: `lineage.py` for `searchAcrossLineage`, `ownership.py` and
@@ -66,6 +66,10 @@ to DataHub: `lineage.py` for `searchAcrossLineage`, `ownership.py` and
 `raiseIncident` / `updateIncident` mutations. Every module calls DataHub only
 through this layer — never directly — so that authentication, retry policy, and
 MCP Server vs. direct GraphQL routing are configured in exactly one place.
+
+For deep technical details on DataHub MCP Server protocols, see [`docs/mcp-context-kit-guide.md`](file:///z:/home/lx_singw/projects/graphoath/docs/mcp-context-kit-guide.md).
+For patterns on connecting LangChain, LangGraph, or Google ADK agents to GraphOath, see [`docs/framework-integrations.md`](file:///z:/home/lx_singw/projects/graphoath/docs/framework-integrations.md).
+For hackathon challenge track and criteria alignment, see [`docs/hackathon-alignment.md`](file:///z:/home/lx_singw/projects/graphoath/docs/hackathon-alignment.md).
 
 ### 2.6 Custody (Ledger)
 
