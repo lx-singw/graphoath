@@ -30,7 +30,9 @@ export default function RootLayout({
           <nav style={{ display: 'flex', gap: '16px' }}>
             <a href="/" style={{ color: '#94a3b8', textDecoration: 'none' }}>Overview</a>
             <a href="/ledger" style={{ color: '#94a3b8', textDecoration: 'none' }}>Ledger</a>
+            <a href="/calculator" style={{ color: '#94a3b8', textDecoration: 'none' }}>ROI Calculator</a>
           </nav>
+
         </header>
         <main style={{ padding: '32px', maxWidth: '1200px', margin: '0 auto' }}>
           {children}

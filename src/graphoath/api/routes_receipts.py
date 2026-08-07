@@ -5,8 +5,11 @@ from graphoath.api.schemas import (
     ReceiptsListResponse, ReceiptSummary, ReceiptDetailResponse,
     LedgerVerifyResponse, ExportRequest, ExportResponse
 )
+from graphoath.datahub.client import DataHubClient
+from graphoath.custody.drift import verify_evidence_drift
 
 router = APIRouter(tags=["Receipts & Ledger"])
+
 
 MOCK_RECEIPT_DETAIL = ReceiptDetailResponse(
     receipt_id="rcpt_2026-08-05T14:32:07Z-0091",
@@ -94,6 +97,14 @@ async def verify_ledger(from_receipt_id: Optional[str] = None, to_receipt_id: Op
         checked_at=now
     )
 
+@router.post("/receipts/verify-drift")
+async def verify_drift(receipt_id: str):
+    client = DataHubClient()
+    detail = MOCK_RECEIPT_DETAIL.dict()
+    detail["receipt_id"] = receipt_id
+    res = await verify_evidence_drift(client, detail)
+    return res
+
 @router.post("/exports", response_model=ExportResponse, status_code=201)
 async def create_export(body: ExportRequest):
     return ExportResponse(
@@ -102,3 +113,4 @@ async def create_export(body: ExportRequest):
         requested_by="usr_3f7a9c",
         estimated_completion_seconds=12
     )
+
