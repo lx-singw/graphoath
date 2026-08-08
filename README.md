@@ -115,6 +115,7 @@ Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Ag
 * **Confidence-Tiered Routing Engine**: [`docs/confidence-tiered-routing.md`](docs/confidence-tiered-routing.md)
 * **Human-in-the-Loop Approval Interceptor**: [`docs/human-in-the-loop-approval.md`](docs/human-in-the-loop-approval.md)
 * **Quantified Impact Case Study**: [`docs/quantified-impact-case-study.md`](docs/quantified-impact-case-study.md)
+* **Master Build Roadmap & Production Handoff Specification**: [`docs/full-build-roadmap.md`](docs/full-build-roadmap.md) *(Production 8-phase blueprint across all 45 docs)*
 * **Hackathon Alignment Criteria Matrix**: [`docs/hackathon-alignment.md`](docs/hackathon-alignment.md)
 * **Judging Criteria Deep Research & Execution Audit**: [`docs/judging-criteria-deep-research.md`](docs/judging-criteria-deep-research.md) *(Honest evaluation against Devpost criteria)*
 
