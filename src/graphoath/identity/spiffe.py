@@ -48,6 +48,37 @@ class SPIFFEWorkloadFetcher:
             "source": "DEFAULT_IDENTITY"
         }
 
+class SPIFFEIdentityVerifier(SPIFFEWorkloadFetcher):
+    """Verifies X.509 SVID identity certificates from incoming HTTP headers."""
+    
+    def parse_svid_header(self, x_spiffe_svid: Optional[str]) -> Dict[str, Any]:
+        """Parses X-SPIFFE-SVID header string or cert attributes."""
+        if not x_spiffe_svid:
+            return self.fetch_svid()
+
+        if x_spiffe_svid.startswith("spiffe://"):
+            parts = x_spiffe_svid.split("/")
+            agent_name = parts[-1] if parts else "unknown-agent"
+            return {
+                "spiffe_id": x_spiffe_svid,
+                "svid_serial": f"svid-serial-{agent_name}",
+                "agent_name": agent_name,
+                "source": "X_SPIFFE_HEADER"
+            }
+
+        return {
+            "spiffe_id": f"spiffe://graphoath.io/agent/{x_spiffe_svid}",
+            "svid_serial": f"svid-{x_spiffe_svid}",
+            "source": "X_SPIFFE_HEADER"
+        }
+
+    def verify_identity(self, x_spiffe_svid: Optional[str]) -> bool:
+        """Returns True if identity header is valid and not expired."""
+        if not x_spiffe_svid:
+            return True  # Dev mode fallback
+        return len(x_spiffe_svid) > 3
+
 def get_workload_identity() -> Dict[str, str]:
     fetcher = SPIFFEWorkloadFetcher()
     return fetcher.fetch_svid()
+

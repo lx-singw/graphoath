@@ -41,14 +41,12 @@ class CustodyReceipt:
         canonical_json = json.dumps(payload_data, sort_keys=True, separators=(',', ':'))
         return hashlib.sha256(canonical_json.encode('utf-8')).hexdigest()
 
-    def compute_hash(self) -> str:
-        """
-        Computes Merkle-like hash chain:
-        H_n = SHA256(H_{n-1} || ReceiptID || Action || Timestamp || PayloadHash || SPIFFE_ID)
-        """
+    def calculate_hash(self, previous_hash: Optional[str] = None) -> str:
+        """Calculates hash with explicit previous_hash."""
+        prev = previous_hash if previous_hash is not None else self.previous_hash
         payload_hash = self.compute_payload_hash()
         chained_str = (
-            f"{self.previous_hash}"
+            f"{prev}"
             f"||{self.receipt_id}"
             f"||{self.action_type}"
             f"||{self.created_at_ms}"
@@ -56,6 +54,13 @@ class CustodyReceipt:
             f"||{self.spiffe_id}"
         )
         return hashlib.sha256(chained_str.encode('utf-8')).hexdigest()
+
+    def compute_hash(self) -> str:
+        """
+        Computes Merkle-like hash chain:
+        H_n = SHA256(H_{n-1} || ReceiptID || Action || Timestamp || PayloadHash || SPIFFE_ID)
+        """
+        return self.calculate_hash(self.previous_hash)
 
     def to_dict(self) -> Dict[str, Any]:
         return {

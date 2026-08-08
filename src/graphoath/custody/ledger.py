@@ -162,3 +162,13 @@ class Ledger:
 
         return True, len(receipts), None
 
+class LedgerEngine(Ledger):
+    """Async & Sync High-Performance Custody Ledger Engine."""
+    
+    async def append_receipt(self, receipt: CustodyReceipt) -> CustodyReceipt:
+        return self.append_custody_receipt(receipt)
+
+    async def get_latest_hash_async(self) -> str:
+        return self.get_latest_hash()
+
+

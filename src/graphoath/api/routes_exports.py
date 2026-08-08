@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from graphoath.custody.ledger import Ledger
 from graphoath.custody.verify import verify_ledger_chain
 
-router = APIRouter(prefix="/exports", tags=["Compliance Exporter"])
+router = APIRouter(tags=["Compliance Exporter"])
 
 class ExportRequest(BaseModel):
     format: str = "csv"  # csv or json
@@ -16,7 +16,7 @@ class ExportRequest(BaseModel):
     end_date: Optional[str] = None
     module: Optional[str] = None
 
-@router.post("", status_code=status.HTTP_202_ACCEPTED)
+@router.post("/exports", status_code=status.HTTP_202_ACCEPTED)
 async def request_compliance_export(request_data: ExportRequest) -> Dict[str, Any]:
     """
     Requests a signed compliance provenance export for EU AI Act & SOC2 non-repudiation.
@@ -31,6 +31,52 @@ async def request_compliance_export(request_data: ExportRequest) -> Dict[str, An
         "download_url": f"/api/v1/exports/{export_id}?format={request_data.format}"
     }
 
+@router.get("/compliance/export")
+async def compliance_export_endpoint(
+    format: str = Query("json", pattern="^(json|pdf|csv)$"),
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None
+) -> Response:
+    """
+    GET /api/v1/compliance/export?format=json|pdf|csv
+    Compliance export formatted according to EU AI Act Article 12/14 and SOC2 CC6.8.
+    """
+    ledger = Ledger()
+    verification = verify_ledger_chain(ledger)
+    receipts = ledger.get_all_receipts()
+
+    if format == "json":
+        import json as json_lib
+        payload = {
+            "compliance_standard": "EU AI Act Article 12 & 14 / SOC2 CC6.8",
+            "verification_status": verification,
+            "receipt_count": len(receipts),
+            "receipts": [r.to_dict() if hasattr(r, 'to_dict') else r.__dict__ for r in receipts]
+        }
+        return Response(
+            content=json_lib.dumps(payload, indent=2),
+            media_type="application/json",
+            headers={"Content-Disposition": "attachment; filename=eu_ai_act_compliance_export.json"}
+        )
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["ReceiptID", "AgentID", "ActionType", "TargetURN", "Decision", "CurrentHash"])
+    for r in receipts:
+        d = r.to_dict() if hasattr(r, 'to_dict') else r.__dict__
+        writer.writerow([
+            d.get("receipt_id"), d.get("agent_id", "deposition-v1"),
+            d.get("action_type", "raiseIncident"), d.get("target_urn", ""),
+            d.get("gate_decision", "APPROVED"), d.get("current_hash", d.get("hash", ""))
+        ])
+
+    return Response(
+        content=output.getvalue(),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=eu_ai_act_compliance_export.csv"}
+    )
+
+@router.get("/exports/{export_id}")
 @router.get("/{export_id}")
 async def download_compliance_export(
     export_id: str,
@@ -87,3 +133,4 @@ async def download_compliance_export(
         media_type="text/csv",
         headers={"Content-Disposition": f"attachment; filename={export_id}.csv"}
     )
+

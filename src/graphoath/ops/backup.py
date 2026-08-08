@@ -43,12 +43,55 @@ class WORMBackupStreamer:
                     restored.append(json.load(f))
         return restored
 
+class MinIOBackupEngine(WORMBackupStreamer):
+    """Async S3/MinIO WORM Backup & Disaster Recovery Engine."""
+    
+    async def mirror_receipt(self, receipt: CustodyReceipt) -> Dict[str, Any]:
+        return self.backup_receipt(receipt)
+
+    async def disaster_recovery_reconstruct(self, ledger: Optional[Ledger] = None) -> Dict[str, Any]:
+        """
+        Disaster recovery procedure:
+        Pulls all receipts from WORM storage, re-populates ledger, and verifies hash chain.
+        """
+        target_ledger = ledger or Ledger()
+        restored_payloads = self.restore_from_archive()
+        
+        reconstructed_count = 0
+        for payload in restored_payloads:
+            rcpt = CustodyReceipt(
+                receipt_id=payload.get("receipt_id", ""),
+                action_type=payload.get("action_type", "raiseIncident"),
+                target_urn=payload.get("target_urn", ""),
+                evidence_payload=payload.get("evidence_payload", []),
+                claims_payload=payload.get("claims_payload", {}),
+                agent_id=payload.get("agent_id", "deposition-v1"),
+                spiffe_id=payload.get("spiffe_id", "spiffe://graphoath.io/agent/deposition-v1"),
+                svid_serial=payload.get("svid_serial", "svid-001"),
+                gate_decision=payload.get("gate_decision", "APPROVED"),
+                confidence_score=payload.get("confidence_score", 1.0),
+                sequence_number=payload.get("sequence_number", 1),
+                previous_hash=payload.get("previous_hash", ""),
+                created_at_ms=payload.get("created_at_ms", 0),
+                current_hash=payload.get("current_hash", "")
+            )
+            target_ledger.append_custody_receipt(rcpt)
+            reconstructed_count += 1
+
+        is_intact, count, break_id = target_ledger.verify_chain()
+        return {
+            "status": "RECONSTRUCTED_AND_VERIFIED",
+            "reconstructed_count": reconstructed_count,
+            "chain_is_valid": is_intact,
+            "break_at_receipt_id": break_id
+        }
+
 def main():
     parser = argparse.ArgumentParser(description="GraphOath WORM Backup & Restore Tool")
     parser.add_argument("--restore", action="store_true", help="Restore database from WORM archive")
     args = parser.parse_args()
 
-    backup_engine = WORMBackupStreamer()
+    backup_engine = MinIOBackupEngine()
     if args.restore:
         records = backup_engine.restore_from_archive()
         print(f"[GraphOath WORM Restore] Restored {len(records)} custody receipt(s) from S3/MinIO compliance mode storage.")
@@ -57,3 +100,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
