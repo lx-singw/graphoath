@@ -132,13 +132,30 @@ async def get_receipt(receipt_id: str):
         return MOCK_RECEIPT_DETAIL
     raise HTTPException(status_code=404, detail=f"Receipt '{receipt_id}' not found")
 
+from graphoath.custody.drift import EvidenceDriftEngine, DriftReport
+from graphoath.custody.receipt import CustodyReceipt
+
 @router.post("/receipts/verify-drift")
 async def verify_drift(receipt_id: str):
-    client = DataHubClient()
-    detail = MOCK_RECEIPT_DETAIL.dict()
-    detail["receipt_id"] = receipt_id
-    res = await verify_evidence_drift(client, detail)
-    return res
+    ledger = Ledger()
+    target_rcpt = None
+    for r in ledger.get_all_receipts():
+        if getattr(r, "receipt_id", None) == receipt_id:
+            target_rcpt = r
+            break
+            
+    if not target_rcpt:
+        target_rcpt = CustodyReceipt(
+            receipt_id=receipt_id,
+            action_type="deprecateDataset",
+            target_urn="urn:li:dataset:(snowflake,prod.stg_orders)",
+            evidence_payload=[{"urn": "urn:li:dataset:(snowflake,prod.stg_orders)", "owner": "priya_ramaswamy"}],
+            claims_payload={}
+        )
+
+    engine = EvidenceDriftEngine()
+    report = engine.verify_drift(target_rcpt)
+    return report.model_dump()
 
 @router.post("/exports", response_model=ExportResponse, status_code=201)
 async def create_export(body: ExportRequest):

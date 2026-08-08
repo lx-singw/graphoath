@@ -1,3 +1,11 @@
-"""
-Deposition Module Package — Field Removal / Schema Break Incident Evidence Engine
-"""
+from graphoath.modules.deposition.confidence import (
+    ConfidenceRoutingEngine,
+    ConfidenceResult,
+    RoutingTier,
+)
+
+__all__ = [
+    "ConfidenceRoutingEngine",
+    "ConfidenceResult",
+    "RoutingTier",
+]
