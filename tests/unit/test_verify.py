@@ -4,6 +4,7 @@ from graphoath.custody.ledger import Ledger
 from graphoath.custody.verify import verify_ledger_chain
 
 def test_verify_ledger_chain_healthy():
+    Ledger.clear_memory()
     ledger = Ledger()
     r1 = CustodyReceipt(receipt_id="r1", action_type="act", target_urn="urn:1", evidence_payload=[], claims_payload={})
     ledger.append_custody_receipt(r1)
@@ -15,6 +16,7 @@ def test_verify_ledger_chain_healthy():
     assert "head_hash" in res or "head_ledger_hash" in res
 
 def test_verify_ledger_chain_corrupted():
+    Ledger.clear_memory()
     ledger = Ledger()
     r1 = CustodyReceipt(receipt_id="r1", action_type="act", target_urn="urn:1", evidence_payload=[], claims_payload={})
     ledger.append_custody_receipt(r1)

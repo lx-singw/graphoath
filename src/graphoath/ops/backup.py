@@ -54,6 +54,7 @@ class MinIOBackupEngine(WORMBackupStreamer):
         Disaster recovery procedure:
         Pulls all receipts from WORM storage, re-populates ledger, and verifies hash chain.
         """
+        Ledger.clear_memory()
         target_ledger = ledger or Ledger()
         restored_payloads = self.restore_from_archive()
         

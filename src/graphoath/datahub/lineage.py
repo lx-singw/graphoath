@@ -10,6 +10,10 @@ class EvidencePackage:
     entities: List[Dict[str, Any]] = field(default_factory=list)
     raw_response: Dict[str, Any] = field(default_factory=dict)
 
+    @property
+    def lineage_urns(self) -> List[str]:
+        return [e["urn"] for e in self.entities if "urn" in e]
+
 async def search_across_lineage(
     client: DataHubClient,
     urn: str,

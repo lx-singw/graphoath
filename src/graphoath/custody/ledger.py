@@ -15,10 +15,16 @@ except ImportError:
 from graphoath.custody.receipt import Receipt, CustodyReceipt, GENESIS_HASH
 
 class Ledger:
+    _memory_ledger: List[Receipt] = []
+    _memory_custody_ledger: List[CustodyReceipt] = []
+
+    @classmethod
+    def clear_memory(cls):
+        cls._memory_ledger.clear()
+        cls._memory_custody_ledger.clear()
+
     def __init__(self, db_session: Optional[Session] = None):
         self.db = db_session
-        self._memory_ledger: List[Receipt] = []
-        self._memory_custody_ledger: List[CustodyReceipt] = []
 
     def get_latest_hash(self) -> str:
         if self.db:

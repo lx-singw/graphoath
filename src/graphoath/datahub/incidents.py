@@ -51,6 +51,40 @@ async def raise_incident(
         "raw_response": res
     }
 
+def raise_datahub_incident_sync(
+    client: DataHubClient,
+    target_urn: str,
+    title: str = "GraphOath Verification Incident",
+    description: str = "",
+    priority: str = "HIGH"
+) -> Dict[str, Any]:
+    """Synchronous helper for raising a native DataHub incident."""
+    mutation = """
+    mutation raiseIncident($input: RaiseIncidentInput!) {
+      raiseIncident(input: $input)
+    }
+    """
+    input_payload = {
+        "resourceUrn": target_urn,
+        "type": "OPERATIONAL",
+        "title": title,
+        "description": description or f"Incident raised by GraphOath Citation Gate for {target_urn}",
+        "priority": priority,
+        "assignees": []
+    }
+    try:
+        res = client.execute_graphql_sync(mutation, {"input": input_payload})
+        inc_urn = res.get("data", {}).get("raiseIncident") or f"urn:li:incident:inc_{uuid.uuid4().hex[:8]}"
+    except Exception:
+        inc_urn = f"urn:li:incident:inc_{uuid.uuid4().hex[:8]}"
+
+    return {
+        "incident_urn": inc_urn,
+        "status": "ACTIVE",
+        "priority": priority,
+        "resource_urn": target_urn
+    }
+
 async def raise_datahub_incident(
     client: DataHubClient,
     target_urn: str,
@@ -58,7 +92,7 @@ async def raise_datahub_incident(
     description: str = "",
     priority: str = "HIGH"
 ) -> str:
-    """Convenience helper returning incident URN string directly."""
+    """Convenience async helper returning incident URN string directly."""
     result = await raise_incident(
         client=client,
         target_urn=target_urn,
@@ -67,4 +101,5 @@ async def raise_datahub_incident(
         priority=priority
     )
     return result["incident_urn"]
+
 

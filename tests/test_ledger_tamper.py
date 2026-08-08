@@ -5,6 +5,7 @@ from graphoath.custody.verify import verify_ledger_integrity
 
 @pytest.mark.asyncio
 async def test_ledger_tamper_detection_10_receipts():
+    Ledger.clear_memory()
     ledger = Ledger()
     
     # 1. Insert 10 valid receipts
@@ -35,6 +36,7 @@ async def test_ledger_tamper_detection_10_receipts():
     assert res_tampered["tampered_receipt_id"] == "rcpt_5"
 
 def test_prevent_receipt_mutation_simulation():
+    Ledger.clear_memory()
     ledger = Ledger()
     rcpt = CustodyReceipt(
         receipt_id="rcpt_immutable_1",

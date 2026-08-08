@@ -24,7 +24,7 @@ def main():
     print("========================================================================")
     
     steps = [
-        ("Custody Ledger Tamper Pytest Suite", [sys.executable, "-m", "unittest", "tests/test_ledger_tamper.py"]),
+        ("Custody Ledger Tamper Pytest Suite", [sys.executable, "-m", "pytest", "tests/test_ledger_tamper.py"]),
         ("Agent Key Signature Verification", [sys.executable, "graphoath/identity.py"]),
         ("Continuous Audit Daemon Verification", [sys.executable, "graphoath/audit_daemon.py"]),
         ("Circuit Breaker & Resilience Verification", [sys.executable, "graphoath/resilience.py"]),

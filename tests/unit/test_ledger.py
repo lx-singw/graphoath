@@ -3,6 +3,7 @@ from graphoath.custody.receipt import CustodyReceipt, GENESIS_HASH
 from graphoath.custody.ledger import Ledger
 
 def test_ledger_append_and_chain():
+    Ledger.clear_memory()
     ledger = Ledger()
     
     r1 = CustodyReceipt(
@@ -31,6 +32,7 @@ def test_ledger_append_and_chain():
     assert break_id is None
 
 def test_ledger_tamper_detection():
+    Ledger.clear_memory()
     ledger = Ledger()
     r1 = CustodyReceipt(receipt_id="r1", action_type="act1", target_urn="urn:1", evidence_payload=[], claims_payload={})
     r2 = CustodyReceipt(receipt_id="r2", action_type="act2", target_urn="urn:2", evidence_payload=[], claims_payload={})
