@@ -2,42 +2,228 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GraphOath — Interactive Architecture System Visualizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphOath — Interactive Citation-Gated Control Plane Visualizer</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0b0f19; color: #f8fafc; margin: 0; padding: 2rem; }
-        .header { text-align: center; border-bottom: 1px solid #1e293b; padding-bottom: 1.5rem; }
-        .flow-container { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 3rem auto; gap: 1rem; }
-        .box { background: #1e293b; border: 2px solid #3b82f6; border-radius: 0.75rem; padding: 1.5rem; width: 220px; text-align: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
-        .box h3 { color: #60a5fa; margin-top: 0; }
-        .arrow { font-size: 2rem; color: #10b981; font-weight: bold; }
-        .highlight { border-color: #10b981; background: #064e3b; }
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #0f172a;
+            --border-color: #1e293b;
+            --accent-blue: #38bdf8;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: var(--accent-blue);
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-blue);
+            color: var(--bg-color);
+        }
+
+        .btn-red {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .btn-red:hover {
+            background-color: var(--accent-red);
+            color: #ffffff;
+        }
+
+        .flow-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .node-box {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            width: 240px;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .node-box.active-approved {
+            border-color: var(--accent-green);
+            background-color: #064e3b;
+        }
+
+        .node-box.active-rejected {
+            border-color: var(--accent-red);
+            background-color: #7f1d1d;
+        }
+
+        .node-box h3 {
+            margin-top: 0;
+            color: var(--accent-blue);
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+
+        .badge-green { background: #065f46; color: #a7f3d0; }
+        .badge-red { background: #991b1b; color: #fca5a5; }
+
+        .terminal-log {
+            max-width: 1200px;
+            margin: 2rem auto 0 auto;
+            background: #020617;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            color: var(--accent-green);
+            height: 180px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🛡️ GraphOath — Interactive System Architecture Map</h1>
+        <h1>🛡️ GraphOath — Interactive Control Plane Visualizer</h1>
         <p>Zero-Trust Metadata Control Plane Architecture (ZMCPA) for DataHub AI Agents</p>
     </div>
+
+    <div class="controls">
+        <button class="btn" onclick="simulateValidClaim()">⚡ Simulate Valid Agent Claim (100% Citation)</button>
+        <button class="btn btn-red" onclick="simulateHallucinatedClaim()">🚨 Simulate Hallucinated URN Claim</button>
+    </div>
+
     <div class="flow-container">
-        <div class="box">
-            <h3>1. Event Ingestion</h3>
-            <p>DataHub Actions Framework emits <code>MetadataChangeLog_v1</code></p>
+        <div class="node-box" id="step1">
+            <h3>1. Webhook Ingestion</h3>
+            <p>DataHub Actions <code>MetadataChangeLog_v1</code></p>
+            <span class="status-badge badge-green">LISTENING</span>
         </div>
         <div class="arrow">➔</div>
-        <div class="box">
+        <div class="node-box" id="step2">
             <h3>2. Evidence Engine</h3>
-            <p>DataHub MCP Server queries Lineage, Ownership, & Assertions</p>
+            <p>DataHub MCP 3-Hop Lineage Resolver</p>
+            <span class="status-badge badge-green">3 NODES RESOLVED</span>
         </div>
         <div class="arrow">➔</div>
-        <div class="box highlight">
+        <div class="node-box" id="step3">
             <h3>3. Citation Gate</h3>
-            <p>Zero-Network Local Check<br><code>Ref(Claims) ⊆ Ref(Evidence)</code></p>
+            <p>Zero-Network Set Intersection<br><code>Ref(Claims) ⊆ Ref(Evidence)</code></p>
+            <span class="status-badge badge-green" id="gate-status">SLA &lt; 5.0ms</span>
         </div>
         <div class="arrow">➔</div>
-        <div class="box">
-            <h3>4. Native Action</h3>
-            <p>Emits DataHub <code>raiseIncident</code> & <code>graphoathReceipt</code> aspect</p>
+        <div class="node-box" id="step4">
+            <h3>4. Ledger & Incident</h3>
+            <p>SHA-256 Custody Receipt & <code>raiseIncident</code></p>
+            <span class="status-badge badge-green" id="action-status">READY</span>
         </div>
     </div>
+
+    <div class="terminal-log" id="log-terminal">
+        [SYSTEM ONLINE] GraphOath Control Plane Visualizer Initialized.<br>
+        [WEBSOCKET] Connected to ws://localhost:8000/api/v1/ws/stream<br>
+        [READY] Awaiting agent claim evaluations...
+    </div>
+
+    <script>
+        function appendLog(msg) {
+            const term = document.getElementById('log-terminal');
+            term.innerHTML += '<br>' + msg;
+            term.scrollTop = term.scrollHeight;
+        }
+
+        function simulateValidClaim() {
+            const step3 = document.getElementById('step3');
+            const step4 = document.getElementById('step4');
+            const gateStatus = document.getElementById('gate-status');
+            const actionStatus = document.getElementById('action-status');
+
+            step3.className = 'node-box active-approved';
+            step4.className = 'node-box active-approved';
+            gateStatus.className = 'status-badge badge-green';
+            gateStatus.innerText = 'APPROVED (100% Citation)';
+            actionStatus.innerText = 'RECEIPT GENERATED';
+
+            appendLog('[EVALUATION] Claim: Refers to urn:li:dataset:(snowflake,prod.orders) -> STATUS: APPROVED in 0.0016 ms');
+            appendLog('[LEDGER WRITE] Receipt rcpt_98f4a12b SHA-256: a188d82fb6071b25a7a25dd5072d0fed8a89e0dab834a12d916e4e37c77b238e');
+        }
+
+        function simulateHallucinatedClaim() {
+            const step3 = document.getElementById('step3');
+            const step4 = document.getElementById('step4');
+            const gateStatus = document.getElementById('gate-status');
+            const actionStatus = document.getElementById('action-status');
+
+            step3.className = 'node-box active-rejected';
+            step4.className = 'node-box active-rejected';
+            gateStatus.className = 'status-badge badge-red';
+            gateStatus.innerText = 'REJECTED (50% Resolution)';
+            actionStatus.innerText = 'ACTION BLOCKED';
+
+            appendLog('[EVALUATION] Claim contains hallucinated URN: prod.hallucinated_marketing_metrics -> STATUS: REJECTED');
+            appendLog('[SECURITY GATE] Zero-Trust Boundary Enforced. Write action blocked, incident logged.');
+        }
+    </script>
 </body>
 </html>

@@ -2,7 +2,8 @@ from pydantic import BaseModel, EmailStr
 from typing import List, Dict, Any, Optional
 
 class LoginRequest(BaseModel):
-    email: str
+    email: Optional[str] = None
+    username: Optional[str] = None
     password: str
 
 class UserInfo(BaseModel):
@@ -68,7 +69,8 @@ class ApprovalRequest(BaseModel):
     approver_note: Optional[str] = None
 
 class DenialRequest(BaseModel):
-    reason: str
+    reason: Optional[str] = "Denied by operator"
+    operator_urn: Optional[str] = "urn:li:corpuser:alice_operator"
 
 class ApprovalResponse(BaseModel):
     action_id: str

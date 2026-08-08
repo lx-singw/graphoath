@@ -77,7 +77,6 @@ async def compliance_export_endpoint(
     )
 
 @router.get("/exports/{export_id}")
-@router.get("/{export_id}")
 async def download_compliance_export(
     export_id: str,
     format: str = Query("csv", pattern="^(csv|json)$")

@@ -5,13 +5,14 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 
 @router.post("/login", response_model=LoginResponse)
 async def login(body: LoginRequest):
-    if not body.email or not body.password:
-        raise HTTPException(status_code=422, detail="Email and password required")
+    user_email = body.email or body.username or "operator@graphoath.io"
+    if not user_email or not body.password:
+        raise HTTPException(status_code=422, detail="Email or username and password required")
     
     # Mock user auth validation
     user = UserInfo(
         id="usr_3f7a9c",
-        email=body.email,
+        email=user_email,
         role="operator",
         organization_id="org_8b2e1f"
     )

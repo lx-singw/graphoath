@@ -54,12 +54,13 @@ def list_pending_approvals():
 @router.post("/{action_id}/approve")
 def approve_action(
     action_id: str,
-    payload: ApprovalRequestPayload = Body(...)
+    payload: Optional[ApprovalRequestPayload] = Body(default=None)
 ):
     """
     Approves a HITL-queued or Tier 2 destructive action.
     Binds operator identity (urn:li:corpuser:...) and timestamp to receipt.
     """
+    payload_obj = payload or ApprovalRequestPayload()
     if action_id not in _pending_approvals:
         # Auto-create entry for direct testing
         _pending_approvals[action_id] = ApprovalRecord(
@@ -73,7 +74,7 @@ def approve_action(
 
     record = _pending_approvals[action_id]
     record.status = "APPROVED"
-    record.operator_urn = payload.operator_urn
+    record.operator_urn = payload_obj.operator_urn
 
     # Append HITL custody receipt
     rcpt_id = f"rcpt_hitl_{uuid.uuid4().hex[:8]}"
@@ -81,11 +82,11 @@ def approve_action(
         receipt_id=rcpt_id,
         action_type=record.action_type,
         target_urn=record.target_urn,
-        evidence_payload=[{"urn": record.target_urn, "approved_by": payload.operator_urn}],
-        claims_payload={"status": "APPROVED", "operator": payload.operator_urn, "comment": payload.comment},
+        evidence_payload=[{"urn": record.target_urn, "approved_by": payload_obj.operator_urn}],
+        claims_payload={"status": "APPROVED", "operator": payload_obj.operator_urn, "comment": payload_obj.comment},
         gate_decision="APPROVED",
         confidence_score=record.confidence_score,
-        spiffe_id=payload.operator_urn
+        spiffe_id=payload_obj.operator_urn
     )
     ledger = Ledger()
     ledger.append_custody_receipt(receipt)
@@ -94,7 +95,7 @@ def approve_action(
     return {
         "status": "APPROVED",
         "action_id": action_id,
-        "operator_urn": payload.operator_urn,
+        "operator_urn": payload_obj.operator_urn,
         "receipt_id": rcpt_id,
         "message": f"Action '{action_id}' approved and custody receipt '{rcpt_id}' recorded."
     }
@@ -102,9 +103,10 @@ def approve_action(
 @router.post("/{action_id}/deny")
 def deny_action(
     action_id: str,
-    payload: ApprovalRequestPayload = Body(...)
+    payload: Optional[ApprovalRequestPayload] = Body(default=None)
 ):
     """Denies a HITL-queued action and records denial receipt."""
+    payload_obj = payload or ApprovalRequestPayload()
     if action_id not in _pending_approvals:
         _pending_approvals[action_id] = ApprovalRecord(
             action_id=action_id,
@@ -117,11 +119,11 @@ def deny_action(
 
     record = _pending_approvals[action_id]
     record.status = "DENIED"
-    record.operator_urn = payload.operator_urn
+    record.operator_urn = payload_obj.operator_urn
 
     return {
         "status": "DENIED",
         "action_id": action_id,
-        "operator_urn": payload.operator_urn,
-        "message": f"Action '{action_id}' denied by operator '{payload.operator_urn}'."
+        "operator_urn": payload_obj.operator_urn,
+        "message": f"Action '{action_id}' denied by operator '{payload_obj.operator_urn}'."
     }
