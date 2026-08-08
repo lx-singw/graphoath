@@ -116,6 +116,7 @@ Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Ag
 * **Human-in-the-Loop Approval Interceptor**: [`docs/human-in-the-loop-approval.md`](docs/human-in-the-loop-approval.md)
 * **Quantified Impact Case Study**: [`docs/quantified-impact-case-study.md`](docs/quantified-impact-case-study.md)
 * **Hackathon Alignment Criteria Matrix**: [`docs/hackathon-alignment.md`](docs/hackathon-alignment.md)
+* **Judging Criteria Deep Research & Execution Audit**: [`docs/judging-criteria-deep-research.md`](docs/judging-criteria-deep-research.md) *(Honest evaluation against Devpost criteria)*
 
 * **1-Command Verification Runner**: `python scripts/fast_track_evaluation.py`
 * **Interactive Master CLI Menu**: `python examples/master_demo.py`

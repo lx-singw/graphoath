@@ -59,7 +59,8 @@ graphoath/
 │   ├── assertion-triggered-incidents.md
 │   ├── evidence-drift-reverification.md
 │   ├── confidence-tiered-routing.md
-│   └── native-datahub-trust-tag.md
+│   ├── native-datahub-trust-tag.md
+│   └── judging-criteria-deep-research.md
 ├── examples/
 │   ├── verify_receipt_chain.py
 │   ├── naive_vs_verified_diff_demo.py
