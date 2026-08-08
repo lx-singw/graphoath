@@ -1,15 +1,16 @@
 from datetime import datetime, timezone
-from fastapi import APIRouter, HTTPException, Query, Depends
-from typing import Optional
+from fastapi import APIRouter, HTTPException, Query
+from typing import Optional, Dict, Any
 from graphoath.api.schemas import (
     ReceiptsListResponse, ReceiptSummary, ReceiptDetailResponse,
     LedgerVerifyResponse, ExportRequest, ExportResponse
 )
 from graphoath.datahub.client import DataHubClient
 from graphoath.custody.drift import verify_evidence_drift
+from graphoath.custody.ledger import Ledger
+from graphoath.custody.verify import verify_ledger_chain
 
 router = APIRouter(tags=["Receipts & Ledger"])
-
 
 MOCK_RECEIPT_DETAIL = ReceiptDetailResponse(
     receipt_id="rcpt_2026-08-05T14:32:07Z-0091",
@@ -59,12 +60,51 @@ MOCK_RECEIPT_DETAIL = ReceiptDetailResponse(
     memory_note="2nd occurrence in 30 days, same root cause"
 )
 
+@router.get("/ledger/verify")
+async def verify_ledger(from_receipt_id: Optional[str] = None, to_receipt_id: Optional[str] = None) -> Dict[str, Any]:
+    """
+    Verifies SHA-256 custody ledger hash chain integrity.
+    """
+    ledger = Ledger()
+    return verify_ledger_chain(ledger)
+
 @router.get("/receipts", response_model=ReceiptsListResponse)
 async def list_receipts(
     urn: Optional[str] = None,
     module: Optional[str] = None,
     limit: int = Query(default=25, le=200)
 ):
+    ledger = Ledger()
+    receipts_list = ledger.get_all_receipts()
+    
+    if receipts_list:
+        summaries = []
+        for r in receipts_list[:limit]:
+            if hasattr(r, 'to_dict'):
+                d = r.to_dict()
+                summaries.append(ReceiptSummary(
+                    receipt_id=d["receipt_id"],
+                    module=d["agent_id"],
+                    created_at=str(d["created_at_ms"]),
+                    trigger={"urn": d["target_urn"]},
+                    claim=d["action_type"],
+                    incident_urn="urn:li:incident:live",
+                    hash=d["current_hash"],
+                    prev_hash=d["previous_hash"]
+                ))
+            else:
+                summaries.append(ReceiptSummary(
+                    receipt_id=r.receipt_id,
+                    module=r.module,
+                    created_at=r.created_at,
+                    trigger=r.trigger_info,
+                    claim=r.claim,
+                    incident_urn="urn:li:incident:5f2a9c3e-7b1d-4a6f-9e0c-1d2b3a4c5d6e",
+                    hash=r.hash,
+                    prev_hash=r.prev_hash
+                ))
+        return ReceiptsListResponse(receipts=summaries, next_cursor=None, total_count=len(receipts_list))
+
     summary = ReceiptSummary(
         receipt_id=MOCK_RECEIPT_DETAIL.receipt_id,
         module=MOCK_RECEIPT_DETAIL.module,
@@ -81,21 +121,16 @@ async def list_receipts(
         total_count=1
     )
 
-@router.get("/receipts/{receipt_id}", response_model=ReceiptDetailResponse)
+@router.get("/receipts/{receipt_id}")
 async def get_receipt(receipt_id: str):
+    ledger = Ledger()
+    for r in ledger.get_all_receipts():
+        r_id = getattr(r, "receipt_id", None)
+        if r_id == receipt_id:
+            return r.to_dict() if hasattr(r, 'to_dict') else r.__dict__
     if receipt_id == MOCK_RECEIPT_DETAIL.receipt_id or receipt_id.startswith("rcpt_"):
         return MOCK_RECEIPT_DETAIL
     raise HTTPException(status_code=404, detail=f"Receipt '{receipt_id}' not found")
-
-@router.get("/ledger/verify", response_model=LedgerVerifyResponse)
-async def verify_ledger(from_receipt_id: Optional[str] = None, to_receipt_id: Optional[str] = None):
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-    return LedgerVerifyResponse(
-        status="intact",
-        receipts_checked=1,
-        checked_at=now
-    )
 
 @router.post("/receipts/verify-drift")
 async def verify_drift(receipt_id: str):
@@ -113,4 +148,3 @@ async def create_export(body: ExportRequest):
         requested_by="usr_3f7a9c",
         estimated_completion_seconds=12
     )
-
