@@ -1,6 +1,7 @@
 # GraphOath
 
 [![CI](https://github.com/lx-singw/graphoath/actions/workflows/ci.yml/badge.svg)](https://github.com/lx-singw/graphoath/actions/workflows/ci.yml)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/lx-singw/graphoath)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Python-3.12%2B-blue)](https://www.python.org/)
 [![DataHub](https://img.shields.io/badge/DataHub-v0.14%2B-orange)](https://datahubproject.io/)
