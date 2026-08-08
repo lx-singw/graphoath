@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from graphoath.config import settings
-from graphoath.api import routes_auth, routes_receipts, routes_incidents, routes_calculator
+from graphoath.api import routes_auth, routes_receipts, routes_incidents, routes_calculator, routes_webhooks
 
 app = FastAPI(
     title="GraphOath API",
@@ -21,6 +21,8 @@ app.include_router(routes_auth.router, prefix="/api")
 app.include_router(routes_receipts.router, prefix="/api")
 app.include_router(routes_incidents.router, prefix="/api")
 app.include_router(routes_calculator.router, prefix="/api")
+app.include_router(routes_webhooks.router, prefix="/api/v1")
+app.include_router(routes_webhooks.router, prefix="/api")
 
 
 @app.get("/")

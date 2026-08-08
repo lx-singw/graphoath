@@ -1,9 +1,11 @@
-from typing import Optional
+from typing import List, Dict, Any, Optional
 from graphoath.datahub.client import DataHubClient
 
-async def get_ownership(client: DataHubClient, urn: str) -> str:
+async def get_ownership(client: DataHubClient, urn: str) -> List[str]:
     """
-    Fetches ownership team or lead for a DataHub URN.
+    Fetches ownership URNs/names for a DataHub entity URN.
+    
+    Zero Mock Policy: Parses real ownership records from GMS GraphQL.
     """
     query = """
     query getOwnership($urn: String!) {
@@ -15,6 +17,10 @@ async def get_ownership(client: DataHubClient, urn: str) -> str:
                 urn
                 name
               }
+              ... on CorpUser {
+                urn
+                username
+              }
             }
           }
         }
@@ -22,5 +28,20 @@ async def get_ownership(client: DataHubClient, urn: str) -> str:
     }
     """
     res = await client.execute_graphql(query, {"urn": urn})
-    # Return mock owner if dev mode
-    return "team-growth-analytics"
+    owners: List[str] = []
+
+    if "data" in res and res["data"] and "dataset" in res["data"]:
+        dataset = res["data"]["dataset"] or {}
+        ownership = dataset.get("ownership") or {}
+        for owner_entry in ownership.get("owners", []):
+            owner_obj = owner_entry.get("owner", {})
+            owner_urn = owner_obj.get("urn") or owner_obj.get("name") or owner_obj.get("username")
+            if owner_urn:
+                owners.append(owner_urn)
+
+    return owners
+
+async def get_dataset_ownership(client: DataHubClient, urn: str) -> List[str]:
+    """Alias for get_ownership."""
+    return await get_ownership(client, urn)
+
