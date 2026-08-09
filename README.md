@@ -18,7 +18,27 @@ GraphOath sits between autonomous agents and your DataHub metadata graph. Before
 
 ---
 
-## 1. System Architecture & Control Flow
+## 1. Visual Control Flow: Before vs. After GraphOath
+
+```
+   WITHOUT GRAPHOATH (Naive Agent)               WITH GRAPHOATH (Citation-Gated)
+   
+  ┌──────────────┐                             ┌──────────────┐
+  │ LLM Agent    │                             │ LLM Agent    │
+  └──────┬───────┘                             └──────┬───────┘
+         │ Unverified Write                           │ Proposed Claim
+         ▼                                            ▼
+  ┌──────────────┐                             ┌──────────────┐
+  │ DataHub Catalog│                           │ GraphOath    │ ◄── Validates against
+  │ (Hallucinated│                             │ Citation Gate│     DataHub MCP Graph
+  │  Asset URNs!)│                             └──────┬───────┘
+  └──────────────┘                                    │ Approved Write Only
+                                                      ▼
+                                               ┌──────────────┐
+                                               │ DataHub      │ (Native Incident + 
+                                               │ Catalog      │  graphoathReceipt aspect)
+                                               └──────────────┘
+```
 
 ```mermaid
 graph TD
@@ -47,28 +67,6 @@ graph TD
         AutoExec -->|SHA-256 Hash Chain| LedgerDB[("PostgreSQL Custody Ledger")]
         LedgerDB -->|Async Mirror| MinIO[("MinIO / S3 WORM Storage")]
     end
-```
-
-### 1.1 Before vs. After GraphOath
-
-```
-   WITHOUT GRAPHOATH (Naive Agent)               WITH GRAPHOATH (Citation-Gated)
-   
-  ┌──────────────┐                             ┌──────────────┐
-  │ LLM Agent    │                             │ LLM Agent    │
-  └──────┬───────┘                             └──────┬───────┘
-         │ Unverified Write                           │ Proposed Claim
-         ▼                                            ▼
-  ┌──────────────┐                             ┌──────────────┐
-  │ DataHub Catalog│                           │ GraphOath    │ ◄── Validates against
-  │ (Hallucinated│                             │ Citation Gate│     DataHub MCP Graph
-  │  Asset URNs!)│                             └──────┬───────┘
-  └──────────────┘                                    │ Approved Write Only
-                                                      ▼
-                                               ┌──────────────┐
-                                               │ DataHub      │ (Native Incident + 
-                                               │ Catalog      │  graphoathReceipt aspect)
-                                               └──────────────┘
 ```
 
 | Operational Dimension | Naive Data Agent (Unverified Write) | GraphOath Citation-Gated Agent |
