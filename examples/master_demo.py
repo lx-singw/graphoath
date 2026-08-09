@@ -16,13 +16,13 @@ DEMOS = [
     ("5", "OpenTelemetry (OTel) Semantic Telemetry Trace Emitter", "examples/otel_tracing_demo.py"),
     ("6", "Automated Custody Ledger Tamper Detection Pytest Suite", "tests/test_ledger_tamper.py"),
     ("7", "1-Liner Decorator Self-Test Demo", "examples/decorator.py"),
-    ("8", "Graph Traversal Circuit Breaker & Resilience Self-Test", "graphoath/resilience.py")
+    ("8", "Graph Traversal Circuit Breaker & Resilience Self-Test", "tests/test_resilience.py")
 ]
 
 def run_script(script_path: str):
     print(f"\n>>> EXECUTING: {script_path}\n" + "-"*70)
     if script_path.endswith(".py") and "tests/" in script_path:
-        cmd = [sys.executable, "-m", "unittest", script_path]
+        cmd = [sys.executable, "-m", "pytest", script_path]
     else:
         cmd = [sys.executable, script_path]
     subprocess.run(cmd)
