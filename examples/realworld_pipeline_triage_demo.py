@@ -13,11 +13,11 @@ import json
 # Add parent directory to path for standalone execution
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from graphoath.slack_notifier import generate_slack_incident_card
-from graphoath.playbooks import RemediationPlaybooks
-from graphoath.dedup import IncidentDeduplicator
-from graphoath.ownership_resolver import resolve_hierarchical_ownership
-from graphoath.ledger_verify import compute_receipt_hash
+from graphoath.ops.slack_notifier import generate_slack_incident_card
+from graphoath.ops.playbooks import RemediationPlaybooks
+from graphoath.ops.dedup import IncidentDeduplicator
+from graphoath.datahub.ownership import resolve_hierarchical_ownership
+from graphoath.custody.receipt import compute_receipt_hash
 
 def run_realworld_triage_simulation():
     print("=======================================================================")

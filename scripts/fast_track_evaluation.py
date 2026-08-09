@@ -25,9 +25,9 @@ def main():
     
     steps = [
         ("Custody Ledger Tamper Pytest Suite", [sys.executable, "-m", "pytest", "tests/test_ledger_tamper.py"]),
-        ("Agent Key Signature Verification", [sys.executable, "graphoath/identity.py"]),
-        ("Continuous Audit Daemon Verification", [sys.executable, "graphoath/audit_daemon.py"]),
-        ("Circuit Breaker & Resilience Verification", [sys.executable, "graphoath/resilience.py"]),
+        ("Agent Key Signature Verification", [sys.executable, "-m", "pytest", "tests/test_spiffe_identity.py"]),
+        ("Continuous Audit Daemon Verification", [sys.executable, "-m", "pytest", "tests/test_memory_recall.py"]),
+        ("Circuit Breaker & Resilience Verification", [sys.executable, "-m", "pytest", "tests/test_resilience.py"]),
         ("Financial Impact Model Estimator", [sys.executable, "examples/cost_calculator_demo.py"]),
         ("OpenTelemetry Semantic Telemetry Trace Emitter", [sys.executable, "examples/otel_tracing_demo.py"]),
         ("Real-World Multi-Platform Pipeline Triage Simulation", [sys.executable, "examples/realworld_pipeline_triage_demo.py"]),

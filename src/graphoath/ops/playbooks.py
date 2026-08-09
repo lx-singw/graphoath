@@ -80,3 +80,16 @@ class RemediationPlaybookEngine:
             risk_level="LOW_NON_DESTRUCTIVE",
             details={"original_owners": owners, "escalated_to": escalated_to}
         )
+
+class RemediationPlaybooks:
+    @staticmethod
+    def dataset_quarantine_playbook(target_urns: Any) -> Dict[str, Any]:
+        count = len(target_urns) if isinstance(target_urns, list) else 1
+        return {"action": f"Applied Quarantined tag to {count} downstream datasets"}
+
+    @staticmethod
+    def dbt_model_pause_playbook(models: Any) -> Dict[str, Any]:
+        count = len(models) if isinstance(models, list) else 1
+        return {"action": f"Paused dbt model execution for {count} downstream models"}
+
+

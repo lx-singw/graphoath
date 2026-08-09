@@ -1,6 +1,6 @@
 # GraphOath — Citation-Gated Automated Remediation Playbooks
 
-This document specifies **GraphOath's Automated Remediation Playbook Generator**, implemented in [`graphoath/playbooks.py`](graphoath/playbooks.py), which dynamically attaches verified, actionable remediation playbooks to native DataHub Incidents (`raiseIncident`) when pipeline schema breaks occur.
+This document specifies **GraphOath's Automated Remediation Playbook Generator**, implemented in [`src/graphoath/ops/playbooks.py`](src/graphoath/ops/playbooks.py), which dynamically attaches verified, actionable remediation playbooks to native DataHub Incidents (`raiseIncident`) when pipeline schema breaks occur.
 
 ---
 

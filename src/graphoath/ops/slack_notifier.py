@@ -101,3 +101,22 @@ class SlackNotifier:
             claim_text=claim_text,
             block_kit_payload=block_kit
         )
+
+def generate_slack_incident_card(
+    action_id: str,
+    target_urn: str,
+    downstream_lineage: Optional[list] = None,
+    assignees: Optional[list] = None,
+    receipt_hash: Optional[str] = None,
+    title: str = "Incident Alert"
+) -> dict:
+    notifier = SlackNotifier()
+    card = notifier.build_approval_card(
+        action_id=action_id,
+        action_type="raiseIncident",
+        target_urn=target_urn,
+        claim_text=f"{title} (Receipt: {receipt_hash or 'N/A'})"
+    )
+    return card.block_kit_payload
+
+

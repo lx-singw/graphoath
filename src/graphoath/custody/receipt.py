@@ -8,6 +8,11 @@ from typing import List, Dict, Any, Optional
 GENESIS_SEED = "GENESIS_BLOCK_GRAPHOATH_2026"
 GENESIS_HASH = hashlib.sha256(GENESIS_SEED.encode("utf-8")).hexdigest()
 
+def compute_receipt_hash(payload: dict, prev_hash: str = GENESIS_HASH) -> str:
+    raw = f"{prev_hash}:{json.dumps(payload, sort_keys=True)}"
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
 @dataclass
 class CustodyReceipt:
     receipt_id: str

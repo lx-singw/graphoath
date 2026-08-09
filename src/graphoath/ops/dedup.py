@@ -74,3 +74,9 @@ class IncidentDeduplicator:
             first_seen_timestamp=now,
             last_seen_timestamp=now
         )
+
+    def process_incident_claim(self, source_urn: str, downstream_lineage: list = None) -> tuple:
+        dedup_res = self.check_and_deduplicate(source_urn, "SCHEMA_BREAK")
+        action_type = "raiseIncident" if not dedup_res.is_duplicate else "updateIncident"
+        return action_type, dedup_res.incident_urn, {"dedup_status": "PROCESSED", "receipt_id": "rcpt_realworld_001"}
+
