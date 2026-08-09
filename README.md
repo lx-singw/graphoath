@@ -18,7 +18,52 @@ GraphOath sits between autonomous agents and your DataHub metadata graph. Before
 
 ---
 
-## 1. Visual Control Flow: Before vs. After GraphOath
+## 1. System Architecture & Visual Control Flow
+
+```mermaid
+graph TD
+    subgraph Agent Runtime Layer
+        A1[LangGraph EGAL Loop] -->|Proposed Action + Claim| Interceptor
+        A2[LangChain Tools] -->|Intercepted Write| Interceptor
+        A3[LlamaIndex / ADK] -->|Tool Call| Interceptor
+    end
+
+    subgraph GraphOath Control Plane Middleware
+        Interceptor[GraphOath @protected Interceptor] --> EGAL[Evidence-Gated Agent Loop]
+        EGAL --> SG[Sentinel & Forensic Collector]
+        SG -->|DataHub SDK Query| DH_SDK[datahub-agent-context SDK]
+        DH_SDK -->|Lineage / Ownership / Assertions| GMS[DataHub GMS Graph]
+        
+        SG -->|Evidence Package| Gate{Citation Gate<br/>gate.py}
+        Gate -->|Deterministic Math Check| Score[Confidence Score Engine]
+        
+        Score -->|Score >= 0.90| AutoExec[Auto-Executor]
+        Score -->|0.75 <= Score < 0.90| HITL[Slack HITL Approval Queue]
+        Score -->|Score < 0.75| Reject[Reject Claim & Log Drift]
+
+        HITL -->|Operator Approve| AutoExec
+        HITL -->|Operator Deny| Reject
+    end
+
+    subgraph Real DataHub & Persistence Infrastructure
+        AutoExec -->|GraphQL raiseIncident| GMS
+        AutoExec -->|emitMCP Aspect| GMS
+        AutoExec -->|addTag Trust Tag| GMS
+        
+        AutoExec -->|Append Receipt| LedgerDB[(PostgreSQL Ledger)]
+        LedgerDB -->|Async Mirror| MinIO[(MinIO / S3 WORM Storage)]
+        
+        AutoExec -->|OTLP Traces| OTel[OpenTelemetry / Jaeger]
+    end
+
+    subgraph Operator UI & Compliance
+        Dashboard[Next.js 14 Dashboard] <-->|WebSocket + REST| Webhooks[FastAPI REST API]
+        Webhooks <--> LedgerDB
+        Auditor[Independent Verifier CLI] -->|Validate Hash Chain| LedgerDB
+    end
+```
+
+### 1.1 Before vs. After GraphOath Flow
 
 ```
    WITHOUT GRAPHOATH (Naive Agent)               WITH GRAPHOATH (Citation-Gated)
@@ -38,35 +83,6 @@ GraphOath sits between autonomous agents and your DataHub metadata graph. Before
                                                │ DataHub      │ (Native Incident + 
                                                │ Catalog      │  graphoathReceipt aspect)
                                                └──────────────┘
-```
-
-```mermaid
-graph TD
-    subgraph Agents["🤖 AI Agent Runtime Layer"]
-        A1[LangGraph EGAL Loop]
-        A2[LangChain Tools]
-        A3[LlamaIndex / Google ADK]
-    end
-
-    subgraph Core["🛡️ GraphOath Control Plane"]
-        A1 & A2 & A3 --> Interceptor["@graphoath_protected Interceptor"]
-        Interceptor --> Gate{"Citation Gate (gate.py)<br/>Ref(Claims) ⊆ Ref(Evidence)"}
-        Gate -->|Passed >= 0.90| AutoExec["Auto-Executor"]
-        Gate -->|Tier B 0.75-0.89| HITL["Slack HITL Approval Queue"]
-        Gate -->|Tier C < 0.75| Reject["Reject & Log Drift"]
-        HITL -->|Operator Approved| AutoExec
-    end
-
-    subgraph DataHub["📊 DataHub Platform Integration"]
-        AutoExec -->|GraphQL raiseIncident| GMS["DataHub GMS Catalog"]
-        AutoExec -->|emitMCP Aspect| GMS
-        AutoExec -->|addTag Trust Tag| GMS
-    end
-
-    subgraph Audit["🔐 Cryptographic Custody Ledger"]
-        AutoExec -->|SHA-256 Hash Chain| LedgerDB[("PostgreSQL Custody Ledger")]
-        LedgerDB -->|Async Mirror| MinIO[("MinIO / S3 WORM Storage")]
-    end
 ```
 
 | Operational Dimension | Naive Data Agent (Unverified Write) | GraphOath Citation-Gated Agent |
