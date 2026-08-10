@@ -1,117 +1,93 @@
-# GraphOath — Zero-Knowledge Judge Setup & Execution Guide
+# GraphOath — Complete Setup & Execution Guide for Judges
 
-Welcome Judges! This guide is written with **zero assumptions**. Whether you are running on Windows, macOS, or Linux, follow these step-by-step instructions to set up, install, and run GraphOath in **under 3 minutes**.
+Welcome Judges! GraphOath supports **two complete execution paths**:
 
----
-
-## 📋 Prerequisites Checklist
-
-Before you begin, ensure you have:
-1. **Python 3.10, 3.11, 3.12, or 3.13** installed (`python --version` or `python3 --version`).
-2. **Git** installed (`git --version`).
-
-> [!NOTE]
-> No local DataHub cluster, PostgreSQL, or Docker setup is required to run the standalone evaluation suite. Everything runs out of the box using built-in Python evaluation runners.
+- 🐳 **Method 1: Docker Compose Setup (1-Command Full-Stack Containerized Setup)** — Runs PostgreSQL, FastAPI REST API Server, Database Migrations, and Next.js Operator Dashboard inside Docker containers.
+- ⚡ **Method 2: Standalone Python Fast-Track Runner (No Docker Required)** — Runs all 8 verification steps and demo simulations directly in Python in 30 seconds.
 
 ---
 
-## 🚀 Step 1: Clone the Repository
+## 🐳 Method 1: Docker Compose Setup (Recommended Full-Stack)
 
-Open your terminal (PowerShell, Bash, or Zsh) and clone the repository:
+If you have **Docker & Docker Compose** installed (`docker --version`), you can launch the entire GraphOath stack with **1 command**:
 
+### Step 1: Clone the Repository & Copy Environment File
+```bash
+git clone https://github.com/lx-singw/graphoath.git
+cd graphoath
+cp .env.example .env
+```
+
+### Step 2: Launch Full Stack via Docker Compose
+```bash
+docker compose -f deployments/docker-compose.yml up --build -d
+```
+*(Or if using legacy docker-compose)*:
+```bash
+docker-compose -f deployments/docker-compose.yml up --build -d
+```
+
+### Step 3: Access Live Services
+Once the containers start up:
+- 📊 **FastAPI REST API Specs & OpenAPI Docs**: Open [http://localhost:8000/docs](http://localhost:8000/docs)
+- 🛡️ **Audit Ledger Verification Endpoint**: Open [http://localhost:8000/api/v1/ledger/verify](http://localhost:8000/api/v1/ledger/verify)
+- 🖥️ **Operator Dashboard**: Open [http://localhost:3000](http://localhost:3000)
+
+### Step 4: Run Evaluation Suite Inside Docker Container
+```bash
+docker compose -f deployments/docker-compose.yml exec api python scripts/fast_track_evaluation.py
+```
+
+---
+
+## ⚡ Method 2: Standalone Python Setup (No Docker Required)
+
+If you prefer evaluating GraphOath without running Docker daemons:
+
+### Prerequisites:
+- **Python 3.10+** (`python --version`)
+- **Git** (`git --version`)
+
+### Step 1: Clone & Setup Virtual Environment
 ```bash
 git clone https://github.com/lx-singw/graphoath.git
 cd graphoath
 ```
 
----
-
-## 🐍 Step 2: Create & Activate Virtual Environment
-
-### On Windows (PowerShell):
+**On Windows (PowerShell)**:
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
-*(If PowerShell blocks script activation, run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` first)*.
 
-### On macOS / Linux (Bash or Zsh):
+**On macOS / Linux (Bash/Zsh)**:
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
----
-
-## 📦 Step 3: Install Dependencies
-
-Install the project dependencies in your active virtual environment:
-
+### Step 2: Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-*(Alternatively, install in editable development mode)*:
-```bash
-pip install -e .
-```
+### Step 3: Run Fast-Track Evaluation Suite (30 Seconds)
 
----
-
-## ⚡ Step 4: Run the 1-Command Fast-Track Evaluation Suite
-
-Execute our master evaluation script to verify all 8 technical components of GraphOath in 30 seconds:
-
-### On Windows (PowerShell):
+**On Windows (PowerShell)**:
 ```powershell
 $env:PYTHONPATH="src"; python scripts/fast_track_evaluation.py
 ```
 
-### On macOS / Linux (Bash / Zsh):
+**On macOS / Linux (Bash/Zsh)**:
 ```bash
 PYTHONPATH="src" python scripts/fast_track_evaluation.py
 ```
 
-### Expected Output:
-```
-========================================================================
-  GraphOath — Standalone Verification & Evaluation Runner
-========================================================================
-
-[EXECUTING VERIFICATION STEP] Custody Ledger Tamper Pytest Suite...
-  --> [PASS] Custody Ledger Tamper Pytest Suite
-
-[EXECUTING VERIFICATION STEP] Agent Key Signature Verification...
-  --> [PASS] Agent Key Signature Verification
-
-[EXECUTING VERIFICATION STEP] Continuous Audit Daemon Verification...
-  --> [PASS] Continuous Audit Daemon Verification
-
-[EXECUTING VERIFICATION STEP] Circuit Breaker & Resilience Verification...
-  --> [PASS] Circuit Breaker & Resilience Verification
-
-[EXECUTING VERIFICATION STEP] Financial Impact Model Estimator...
-  --> [PASS] Financial Impact Model Estimator
-
-[EXECUTING VERIFICATION STEP] OpenTelemetry Semantic Telemetry Trace Emitter...
-  --> [PASS] OpenTelemetry Semantic Telemetry Trace Emitter
-
-[EXECUTING VERIFICATION STEP] Real-World Multi-Platform Pipeline Triage Simulation...
-  --> [PASS] Real-World Multi-Platform Pipeline Triage Simulation
-
-[EXECUTING VERIFICATION STEP] Documentation Link Integrity Verifier...
-  --> [PASS] Documentation Link Integrity Verifier
-
-========================================================================
-  VERIFICATION SUMMARY: 8/8 Steps Completed Successfully
-========================================================================
-```
-
 ---
 
-## 🎮 Step 5: Run Interactive Demos (Optional Deep-Dive)
+## 🎮 Interactive Demo Menu
 
-Judges can launch an interactive terminal menu to test individual components:
+Judges can interactively select and execute individual demos from an intuitive CLI menu:
 
 ```powershell
 $env:PYTHONPATH="src"; python examples/master_demo.py
@@ -129,25 +105,10 @@ $env:PYTHONPATH="src"; python examples/master_demo.py
 
 ---
 
-## 🐳 Step 6: Full-Stack Docker Deployment (Optional UI & API Evaluation)
-
-If you wish to evaluate the Next.js Operator Dashboard and live FastAPI REST server:
-
-```bash
-docker compose -f deployments/docker-compose.prod.yml up -d
-```
-
-- **Operator Dashboard**: Open [http://localhost:3000](http://localhost:3000)
-- **FastAPI OpenAPI REST Specs**: Open [http://localhost:8000/docs](http://localhost:8000/docs)
-
----
-
 ## ❓ Troubleshooting & FAQs
 
-### Q: `ModuleNotFoundError: No module named 'graphoath'`
-**Solution**: Make sure `PYTHONPATH` is set to `"src"`.
-- Windows PowerShell: `$env:PYTHONPATH="src"` before calling `python`.
-- Linux/macOS: `PYTHONPATH="src" python ...` or `export PYTHONPATH="src"`.
+### Q: `docker compose` returns permission denied or connection error
+**Solution**: Ensure Docker Desktop or the Docker daemon is running on your host system (`docker ps`).
 
-### Q: PowerShell script execution error when activating `venv`
-**Solution**: Run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` in PowerShell, then retry `.\venv\Scripts\Activate.ps1`.
+### Q: `ModuleNotFoundError: No module named 'graphoath'` in Standalone Mode
+**Solution**: Ensure `PYTHONPATH` is set to `"src"`. On Windows PowerShell, use `$env:PYTHONPATH="src"` before running the python command.
