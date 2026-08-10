@@ -1,0 +1,64 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          { "key": "service.name", "value": { "stringValue": "graphoath-citation-gate" } },
+          { "key": "service.version", "value": { "stringValue": "1.0.0" } },
+          { "key": "deployment.environment", "value": { "stringValue": "production" } }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": { "name": "graphoath.telemetry.tracer", "version": "1.0.0" },
+          "spans": [
+            {
+              "traceId": "4bf92f3577b34da6a3ce929d0e0e4736",
+              "spanId": "00f067aa0ba902b7",
+              "name": "graphoath.citation_gate.evaluate",
+              "kind": "SPAN_KIND_SERVER",
+              "startTimeUnixNano": "1786356000000000000",
+              "endTimeUnixNano": "1786356000001420000",
+              "attributes": [
+                { "key": "agent.id", "value": { "stringValue": "agent-rogue-llm-bot" } },
+                { "key": "target.urn", "value": { "stringValue": "urn:li:dataset:(urn:li:dataPlatform:dbt,dbt.fct_daily_revenue,PROD)" } },
+                { "key": "citation.status", "value": { "stringValue": "REJECTED_UNVERIFIED" } },
+                { "key": "evaluation.latency_ms", "value": { "doubleValue": 1.42 } },
+                { "key": "sli.sla_met", "value": { "boolValue": true } }
+              ],
+              "status": { "code": "STATUS_CODE_ERROR", "message": "Citation verification failed: uncited claim" }
+            },
+            {
+              "traceId": "4bf92f3577b34da6a3ce929d0e0e4736",
+              "spanId": "5fb3250117b4c954",
+              "parentSpanId": "00f067aa0ba902b7",
+              "name": "datahub.gms.graphql_lineage_query",
+              "kind": "SPAN_KIND_CLIENT",
+              "startTimeUnixNano": "1786356000000200000",
+              "endTimeUnixNano": "1786356000000850000",
+              "attributes": [
+                { "key": "datahub.gms.url", "value": { "stringValue": "http://localhost:8080/api/graphql" } },
+                { "key": "datahub.graph.hops", "value": { "intValue": 2 } }
+              ],
+              "status": { "code": "STATUS_CODE_OK" }
+            },
+            {
+              "traceId": "4bf92f3577b34da6a3ce929d0e0e4736",
+              "spanId": "7ce91028ba1923c1",
+              "parentSpanId": "00f067aa0ba902b7",
+              "name": "ledger.sha256_merkle_sign",
+              "kind": "SPAN_KIND_INTERNAL",
+              "startTimeUnixNano": "1786356000000900000",
+              "endTimeUnixNano": "1786356000001350000",
+              "attributes": [
+                { "key": "ledger.receipt_id", "value": { "stringValue": "rcpt_0003_1c2d3e4f" } },
+                { "key": "ledger.merkle_hash", "value": { "stringValue": "a823b49191d8e12f00492c10b779a1f280a91176b51829e19c0b11a9128f7a62" } }
+              ],
+              "status": { "code": "STATUS_CODE_OK" }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

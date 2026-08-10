@@ -1,0 +1,54 @@
+{
+  "ledger_version": "1.0.0",
+  "verification_timestamp": "2026-08-10T12:00:01Z",
+  "total_receipts_evaluated": 3,
+  "ledger_integrity": "100% VALID (0 TAMPERING DETECTED)",
+  "receipts": [
+    {
+      "receipt_id": "rcpt_0001_8a1f2c94",
+      "index": 0,
+      "timestamp": "2026-08-10T11:59:58.110Z",
+      "agent_id": "agent-sales-analytics-v2",
+      "agent_role": "Data Analyst Agent",
+      "target_urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)",
+      "claimed_citation": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)",
+      "citation_status": "VERIFIED",
+      "evaluation_latency_ms": 1.15,
+      "graph_hops_traversed": 1,
+      "trust_tag_applied": "TRUSTED",
+      "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "merkle_hash": "c89b21f92e42a0b12e104f982181a9900c9217b18972106a19f018d9b1a091e2"
+    },
+    {
+      "receipt_id": "rcpt_0002_9b2e3d05",
+      "index": 1,
+      "timestamp": "2026-08-10T11:59:59.430Z",
+      "agent_id": "agent-dbt-runner-bot",
+      "agent_role": "Pipeline Runner Agent",
+      "target_urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,dbt.stg_orders,PROD)",
+      "claimed_citation": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)",
+      "citation_status": "VERIFIED",
+      "evaluation_latency_ms": 1.38,
+      "graph_hops_traversed": 2,
+      "trust_tag_applied": "TRUSTED",
+      "previous_hash": "c89b21f92e42a0b12e104f982181a9900c9217b18972106a19f018d9b1a091e2",
+      "merkle_hash": "f01928b928e1029c78101a09b2e817f910a928e192a017b8219c01827e812a0f"
+    },
+    {
+      "receipt_id": "rcpt_0003_1c2d3e4f",
+      "index": 2,
+      "timestamp": "2026-08-10T12:00:00.142Z",
+      "agent_id": "agent-rogue-llm-bot",
+      "agent_role": "Autonomous Marketing Bot",
+      "target_urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,dbt.fct_daily_revenue,PROD)",
+      "claimed_citation": "uncited_hallucinated_table_99",
+      "citation_status": "REJECTED_UNVERIFIED",
+      "evaluation_latency_ms": 1.42,
+      "graph_hops_traversed": 0,
+      "trust_tag_applied": "UNTRUSTED",
+      "incident_created_urn": "urn:li:incident:inc-2026-0810-7791",
+      "previous_hash": "f01928b928e1029c78101a09b2e817f910a928e192a017b8219c01827e812a0f",
+      "merkle_hash": "a823b49191d8e12f00492c10b779a1f280a91176b51829e19c0b11a9128f7a62"
+    }
+  ]
+}

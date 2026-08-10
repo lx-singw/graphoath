@@ -46,11 +46,14 @@
 
 ---
 
-## 📁 4. Key Repository Assets & Sample Outputs
+## 📁 4. Sample Output Artifacts Showcase (Optional Submission Criteria)
 
-Judges can evaluate sample outputs directly in the repo without running code:
-- **Fast-Track Suite**: [`scripts/fast_track_evaluation.py`](file:///z:/home/lx_singw/projects/graphoath/scripts/fast_track_evaluation.py)
-- **Triage Demo**: [`examples/realworld_pipeline_triage_demo.py`](file:///z:/home/lx_singw/projects/graphoath/examples/realworld_pipeline_triage_demo.py)
-- **OpenTelemetry Demo**: [`examples/otel_tracing_demo.py`](file:///z:/home/lx_singw/projects/graphoath/examples/otel_tracing_demo.py)
-- **ROI Cost Model**: [`examples/cost_calculator_demo.py`](file:///z:/home/lx_singw/projects/graphoath/examples/cost_calculator_demo.py)
-- **FastAPI OpenAPI Schema**: [`docs/openapi.json`](file:///z:/home/lx_singw/projects/graphoath/docs/openapi.json)
+Judges can evaluate production-grade sample outputs directly in the repository without needing to run code:
+
+- 📊 **Sample Outputs Directory**: [`examples/sample_outputs/`](file:///z:/home/lx_singw/projects/graphoath/examples/sample_outputs/README.md)
+- 📄 **Pipeline Triage Incident Report**: [`examples/sample_outputs/1_pipeline_triage_incident_report.md`](file:///z:/home/lx_singw/projects/graphoath/examples/sample_outputs/1_pipeline_triage_incident_report.md)
+- 🛡️ **Cryptographic Receipt Audit Ledger**: [`examples/sample_outputs/2_cryptographic_receipt_audit_ledger.json`](file:///z:/home/lx_singw/projects/graphoath/examples/sample_outputs/2_cryptographic_receipt_audit_ledger.json)
+- 📡 **OpenTelemetry W3C Trace Export**: [`examples/sample_outputs/3_opentelemetry_trace_export.json`](file:///z:/home/lx_singw/projects/graphoath/examples/sample_outputs/3_opentelemetry_trace_export.json)
+- 💰 **Financial ROI & Cost-of-Hallucination Model**: [`examples/sample_outputs/4_financial_roi_hallucination_savings.md`](file:///z:/home/lx_singw/projects/graphoath/examples/sample_outputs/4_financial_roi_hallucination_savings.md)
+- ⚡ **Fast-Track Verification Suite**: [`scripts/fast_track_evaluation.py`](file:///z:/home/lx_singw/projects/graphoath/scripts/fast_track_evaluation.py)
+- 📜 **FastAPI OpenAPI Schema**: [`docs/openapi.json`](file:///z:/home/lx_singw/projects/graphoath/docs/openapi.json)
