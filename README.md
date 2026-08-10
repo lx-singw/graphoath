@@ -150,7 +150,9 @@ GraphOath provides dedicated adapters for major agent frameworks in [`graphoath/
 
 Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Agent Hackathon**.
 
+* **Zero-Knowledge Judge Setup & Execution Guide**: [`docs/judge-setup-guide.md`](docs/judge-setup-guide.md)
 * **Judge's Quick-Evaluation Guide**: [`docs/judge-walkthrough.md`](docs/judge-walkthrough.md)
+* **Demo Video Script & Judge Evaluation Guide**: [`docs/demo-video-and-judging-guide.md`](docs/demo-video-and-judging-guide.md)
 * **Devpost Submission Package**: [`docs/devpost-submission-package.md`](docs/devpost-submission-package.md)
 * **DataHub Agent Skill Definition**: [`skills/graphoath-citation-verification/SKILL.md`](skills/graphoath-citation-verification/SKILL.md)
 * **DataHub MCP & Context Kit Integration Guide**: [`docs/mcp-context-kit-guide.md`](docs/mcp-context-kit-guide.md)
