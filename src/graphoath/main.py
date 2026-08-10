@@ -52,23 +52,15 @@ class WebSocketConnectionManager:
 
 ws_manager = WebSocketConnectionManager()
 
-app.include_router(routes_auth.router, prefix="/api")
 app.include_router(routes_auth.router, prefix="/api/v1")
-app.include_router(routes_receipts.router, prefix="/api")
 app.include_router(routes_receipts.router, prefix="/api/v1")
-app.include_router(routes_incidents.router, prefix="/api")
 app.include_router(routes_incidents.router, prefix="/api/v1")
-app.include_router(routes_calculator.router, prefix="/api")
 app.include_router(routes_calculator.router, prefix="/api/v1")
 app.include_router(routes_webhooks.router, prefix="/api/v1")
-app.include_router(routes_webhooks.router, prefix="/api")
 app.include_router(routes_exports.router, prefix="/api/v1")
-app.include_router(routes_exports.router, prefix="/api")
 app.include_router(routes_ledger.router, prefix="/api/v1")
-app.include_router(routes_ledger.router, prefix="/api")
 app.include_router(routes_approvals.router)
 app.include_router(routes_gate.router, prefix="/api/v1")
-app.include_router(routes_gate.router, prefix="/api")
 
 @app.get("/")
 async def root():
