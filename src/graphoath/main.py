@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
 from graphoath.config import settings
 from graphoath.telemetry import metrics_registry
-from graphoath.api import (
+from graphoath.api.v1 import (
     routes_auth,
     routes_receipts,
     routes_incidents,

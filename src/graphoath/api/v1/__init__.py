@@ -1,7 +1,7 @@
 """
-GraphOath REST API Package
+GraphOath REST API v1 Package
 """
-from graphoath.api.v1 import (
+from . import (
     routes_auth,
     routes_receipts,
     routes_incidents,
