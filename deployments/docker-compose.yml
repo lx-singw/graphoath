@@ -21,8 +21,8 @@ services:
       - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-graphoath_user}:${POSTGRES_PASSWORD:-graphoath_secret}@postgres:5432/${POSTGRES_DB:-graphoath}
-      - DATAHUB_GMS_URL=${DATAHUB_GMS_URL}
-      - DATAHUB_TOKEN=${DATAHUB_TOKEN}
+      - DATAHUB_GMS_URL=${DATAHUB_GMS_URL:-http://localhost:8080}
+      - DATAHUB_TOKEN=${DATAHUB_TOKEN:-dev-token-datahub}
     depends_on:
       - postgres
 
