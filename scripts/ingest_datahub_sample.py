@@ -12,25 +12,18 @@ GMS_URL = os.getenv("DATAHUB_GMS_URL", "http://host.docker.internal:8080").rstri
 if "localhost" in GMS_URL and os.path.exists("/.dockerenv"):
     GMS_URL = GMS_URL.replace("localhost", "host.docker.internal")
 
-def emit_dataset_mcp(urn: str, platform: str, name: str):
-    """Emits dataset entity metadata via GMS GraphQL / OpenAPI."""
-    query = """
-    mutation updateDatasetProperties($input: DatasetUpdateInput!) {
-        updateDataset(input: $input) {
-            urn
-        }
-    }
-    """
-    # Simple GMS aspect ingestion via GMS REST API
+def emit_aspect(entity_type: str, urn: str, aspect_name: str, value_dict: dict):
+    """Emits generic aspect metadata via GMS REST API."""
+    import json
     url = f"{GMS_URL}/aspects?action=ingestProposal"
     payload = {
         "proposal": {
-            "entityType": "dataset",
+            "entityType": entity_type,
             "entityUrn": urn,
             "changeType": "UPSERT",
-            "aspectName": "datasetProperties",
+            "aspectName": aspect_name,
             "aspect": {
-                "value": f'{{"name":"{name}","description":"GraphOath Governed Data Asset"}}',
+                "value": json.dumps(value_dict),
                 "contentType": "application/json"
             }
         }
@@ -39,11 +32,14 @@ def emit_dataset_mcp(urn: str, platform: str, name: str):
         with httpx.Client(timeout=10.0) as client:
             resp = client.post(url, json=payload)
             if resp.status_code in [200, 201]:
-                print(f"  [OK] Ingested Aspect for {urn}")
+                print(f"  [OK] Ingested Aspect '{aspect_name}' for {urn}")
             else:
                 print(f"  [INFO] Ingest response {resp.status_code} for {urn}")
     except Exception as e:
         print(f"  [NOTICE] Connection attempt to DataHub GMS at {url}: {e}")
+
+def emit_dataset_mcp(urn: str, platform: str, name: str):
+    emit_aspect("dataset", urn, "datasetProperties", {"name": name, "description": "GraphOath Governed Data Asset"})
 
 def main():
     print("=======================================================================")
@@ -53,12 +49,24 @@ def main():
     datasets = [
         ("urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)", "snowflake", "prod.orders"),
         ("urn:li:dataset:(urn:li:dataPlatform:dbt,dbt.stg_orders,PROD)", "dbt", "dbt.stg_orders"),
-        ("urn:li:dataset:(urn:li:dataPlatform:dbt,dbt.fct_daily_revenue,PROD)", "dbt", "dbt.fct_daily_revenue"),
-        ("urn:li:chart:(urn:li:dataPlatform:looker,dashboard.executive_revenue_overview,PROD)", "looker", "executive_revenue_overview")
+        ("urn:li:dataset:(urn:li:dataPlatform:dbt,dbt.fct_daily_revenue,PROD)", "dbt", "dbt.fct_daily_revenue")
     ]
     
     for urn, platform, name in datasets:
         emit_dataset_mcp(urn, platform, name)
+        
+    # Ingest Ownership
+    emit_aspect("dataset", "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)", "ownership", {
+        "owners": [{"owner": "urn:li:corpuser:priya_ramaswamy", "type": "TECHNICAL_OWNER"}]
+    })
+
+    # Ingest Upstream Lineage
+    emit_aspect("dataset", "urn:li:dataset:(urn:li:dataPlatform:dbt,dbt.stg_orders,PROD)", "upstreamLineage", {
+        "upstreams": [{"dataset": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)", "type": "TRANSFORMED"}]
+    })
+    emit_aspect("dataset", "urn:li:dataset:(urn:li:dataPlatform:dbt,dbt.fct_daily_revenue,PROD)", "upstreamLineage", {
+        "upstreams": [{"dataset": "urn:li:dataset:(urn:li:dataPlatform:dbt,dbt.stg_orders,PROD)", "type": "TRANSFORMED"}]
+    })
         
     print("=======================================================================")
     print("Ingestion sequence dispatched to DataHub at http://localhost:8080")
