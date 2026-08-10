@@ -185,8 +185,30 @@ Submitted under **Agents That Do Real Work** in the **Build with DataHub: The Ag
 
 ---
 
-## 7. Fast-Track Evaluation & Demo Scripts
+## 7. Fast-Track Evaluation & Local DataHub Setup
 
+### 🐳 Live DataHub Local Quickstart Stack
+Spin up the official DataHub Quickstart stack (`v1.7.0`) locally alongside GraphOath:
+
+```bash
+# 1. Install acryl-datahub CLI and spin up live DataHub stack
+datahub docker quickstart
+
+# 2. Ingest Sample Metadata (Snowflake, dbt, & Looker Lineage)
+python scripts/ingest_datahub_sample.py
+
+# 3. Spin up GraphOath Docker Stack (FastAPI + Next.js + Postgres)
+docker compose -f deployments/docker-compose.yml up -d
+```
+
+| Service | Local Address | Credentials / Description |
+| :--- | :--- | :--- |
+| 🌐 **DataHub Web UI** | **[http://localhost:9002](http://localhost:9002)** | Username: `datahub` / Password: `datahub` |
+| ⚡ **DataHub GMS API** | **[http://localhost:8080](http://localhost:8080)** | DataHub GraphQL GMS Endpoint |
+| 🖥️ **GraphOath Dashboard** | **[http://localhost:3000](http://localhost:3000)** | Next.js Governance Operator UI |
+| 📊 **GraphOath REST API** | **[http://localhost:8000/docs](http://localhost:8000/docs)** | FastAPI Interactive Swagger Specs |
+
+### ⚡ 1-Command Fast-Track Evaluation & Demos
 Judges can evaluate the entire submission in **1 command**:
 
 ```bash
@@ -196,8 +218,11 @@ python scripts/fast_track_evaluation.py
 # 🎮 INTERACTIVE MASTER CLI MENU FOR JUDGES (Select & run any demo)
 python examples/master_demo.py
 
-# 📊 VERIFY DOCUMENTATION INTEGRITY
-python scripts/verify_docs_integrity.py
+# 🤖 LANGCHAIN AGENT REAL SDK DEMO
+python examples/langchain_agent_example.py
+
+# 🌊 REAL-WORLD PIPELINE TRIAGE DEMO
+python examples/realworld_pipeline_triage_demo.py
 ```
 
 

@@ -1,5 +1,10 @@
 import httpx
 from typing import Dict, Any, Optional
+
+import datahub
+from datahub.emitter.rest_emitter import DatahubRestEmitter
+from datahub_agent_context import DataHubContext, get_datahub_client, get_graph
+
 from graphoath.config import settings
 
 class DataHubError(Exception):
@@ -17,7 +22,7 @@ class DataHubGraphQLError(DataHubError):
         self.errors = errors or []
 
 class DataHubClient:
-    """Production DataHub GraphQL & GMS client wrapper with zero mock fallbacks."""
+    """Production DataHub GraphQL & GMS client wrapper with real SDK bindings."""
     def __init__(self, gms_url: Optional[str] = None, token: Optional[str] = None, timeout: float = 10.0):
         self.gms_url = (gms_url or settings.datahub_gms_url).rstrip('/')
         self.token = token or settings.datahub_token
@@ -26,6 +31,8 @@ class DataHubClient:
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.token}"
         }
+        # Initialize native acryl-datahub REST emitter
+        self.emitter = DatahubRestEmitter(gms_server=self.gms_url, token=self.token)
 
     async def execute_graphql(self, query: str, variables: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Executes a GraphQL query against DataHub GMS asynchronously.
@@ -73,39 +80,36 @@ class DataHubClient:
         return res_json
 
     def get_evidence_package(self, urn: str, max_hops: int = 3):
-        """Returns EvidencePackage with lineage for URN."""
+        """Returns EvidencePackage with lineage for URN by querying live DataHub GMS."""
         from graphoath.datahub.lineage import EvidencePackage
         try:
             res = self.execute_graphql_sync(
                 """
-                query searchAcrossLineage($urn: String!, $direction: LineageDirection!, $degree: Int!) {
-                  searchAcrossLineage(input: {urn: $urn, direction: $direction, maxHops: $degree}) {
+                query searchAcrossLineage($urn: String!) {
+                  searchAcrossLineage(input: {urn: $urn, direction: DOWNSTREAM}) {
                     searchResults {
-                      entity { urn type }
-                      degree
+                      entity {
+                        ... on Dataset { urn type }
+                        ... on Chart { urn type }
+                        ... on Dashboard { urn type }
+                      }
                     }
                   }
                 }
                 """,
-                {"urn": urn, "direction": "DOWNSTREAM", "degree": max_hops}
+                {"urn": urn}
             )
             entities = []
-            if "data" in res and res["data"] and "searchAcrossLineage" in res["data"]:
+            if "data" in res and res["data"] and res["data"].get("searchAcrossLineage"):
                 search_results = res["data"]["searchAcrossLineage"] or {}
                 for item in search_results.get("searchResults", []):
                     entity = item.get("entity", {})
                     if entity.get("urn"):
-                        entities.append({"urn": entity.get("urn"), "type": entity.get("type", "DATASET"), "hops": item.get("degree", 1)})
+                        entities.append({"urn": entity.get("urn"), "type": entity.get("type", "DATASET"), "hops": 1})
             return EvidencePackage(source_urn=urn, direction="DOWNSTREAM", max_hops=max_hops, entities=entities, raw_response=res)
-        except Exception:
-            # Simulated lineage fallback for dev/offline mode
-            entities = [
-                {"urn": "urn:li:dataset:(urn:li:dataPlatform:snowflake,prod.orders,PROD)", "type": "DATASET", "hops": 0},
-                {"urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,dbt.stg_orders,PROD)", "type": "DATASET", "hops": 1},
-                {"urn": "urn:li:dataset:(urn:li:dataPlatform:dbt,dbt.fct_daily_revenue,PROD)", "type": "DATASET", "hops": 2},
-                {"urn": "urn:li:chart:(urn:li:dataPlatform:looker,dashboard.executive_revenue_overview,PROD)", "type": "CHART", "hops": 3}
-            ]
-            return EvidencePackage(source_urn=urn, direction="DOWNSTREAM", max_hops=max_hops, entities=entities)
+        except Exception as e:
+            # Zero-mock policy: Raise DataHubConnectionError if live GMS query fails
+            raise DataHubConnectionError(f"Live DataHub GMS lineage query failed for URN '{urn}': {e}") from e
 
 DataHubClientWrapper = DataHubClient
 
