@@ -26,5 +26,17 @@ services:
     depends_on:
       - postgres
 
+  dashboard:
+    build:
+      context: ../src/dashboard
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - api
+
 volumes:
   pgdata:

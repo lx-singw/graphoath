@@ -72,8 +72,8 @@ export default function LedgerPage() {
             <tr style={{ borderBottom: '1px solid #1e293b', color: '#64748b' }}>
               <th style={{ padding: '12px' }}>Seq #</th>
               <th style={{ padding: '12px' }}>Receipt ID</th>
-              <th style={{ padding: '12px' }}>Current Hash ($H_n$)</th>
-              <th style={{ padding: '12px' }}>Previous Hash ($H_{n-1}$)</th>
+              <th style={{ padding: '12px' }}>Current Hash (H_n)</th>
+              <th style={{ padding: '12px' }}>Previous Hash (H_n-1)</th>
               <th style={{ padding: '12px' }}>Action</th>
             </tr>
           </thead>
