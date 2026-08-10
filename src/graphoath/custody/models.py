@@ -28,9 +28,9 @@ class UserModel(Base):
 class CustodyReceiptModel(Base):
     __tablename__ = "custody_receipts"
 
-    id = Column(BigInteger if hasattr(Base, 'BigInteger') else String(64), primary_key=True, autoincrement=True)
+    id = Column(BigInteger if HAS_SQLALCHEMY else String(64), primary_key=True, autoincrement=True)
     receipt_id = Column(String(64), unique=True, nullable=False)
-    sequence_number = Column(BigInteger if hasattr(Base, 'BigInteger') else Column(String(64)), unique=True, nullable=False)
+    sequence_number = Column(BigInteger if HAS_SQLALCHEMY else String(64), unique=True, nullable=False)
     previous_hash = Column(String(64), nullable=False)
     current_hash = Column(String(64), nullable=False)
     agent_id = Column(String(255), nullable=False)
@@ -47,10 +47,10 @@ class CustodyReceiptModel(Base):
 class LedgerAuditLogModel(Base):
     __tablename__ = "ledger_audit_log"
 
-    id = Column(BigInteger if hasattr(Base, 'BigInteger') else String(64), primary_key=True, autoincrement=True)
+    id = Column(BigInteger if HAS_SQLALCHEMY else String(64), primary_key=True, autoincrement=True)
     verification_id = Column(String(64), unique=True, nullable=False)
     status = Column(String(32), nullable=False)
-    total_records_checked = Column(BigInteger if hasattr(Base, 'BigInteger') else Column(String(64)), nullable=False)
+    total_records_checked = Column(BigInteger if HAS_SQLALCHEMY else String(64), nullable=False)
     tampered_receipt_id = Column(String(64), nullable=True)
     execution_time_ms = Column(Float, nullable=False)
     verified_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -58,7 +58,7 @@ class LedgerAuditLogModel(Base):
 class HITLApprovalModel(Base):
     __tablename__ = "hitl_approvals"
 
-    id = Column(BigInteger if hasattr(Base, 'BigInteger') else String(64), primary_key=True, autoincrement=True)
+    id = Column(BigInteger if HAS_SQLALCHEMY else String(64), primary_key=True, autoincrement=True)
     approval_id = Column(String(64), unique=True, nullable=False)
     receipt_id = Column(String(64), ForeignKey("custody_receipts.receipt_id"), nullable=True)
     status = Column(String(32), nullable=False, default="PENDING")
