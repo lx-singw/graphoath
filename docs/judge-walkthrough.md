@@ -4,29 +4,42 @@ Welcome Judges! This guide provides a **120-second fast-track evaluation path** 
 
 ---
 
-## 1. The 120-Second Fast-Track Evaluation Path
+## 1. The 60-Second 1-Command Fast-Track Evaluation Path
 
-If you have **2 minutes** to evaluate this submission, run the following standalone Python scripts directly in your terminal (no Docker or external DataHub instance required):
-
-### Step 1: Run the Standalone Citation Gate & Ledger Demo (30 seconds)
+If you have **60 seconds** to evaluate this submission, run our master fast-track evaluation script directly in your terminal:
 
 ```bash
-python examples/mock_mcp_citation_demo.py
+# ⚡ Run 8-Step Verification Suite (PowerShell / Bash with PYTHONPATH="src")
+PYTHONPATH="src" python scripts/fast_track_evaluation.py
+```
+*(Windows PowerShell syntax)*:
+```powershell
+$env:PYTHONPATH="src"; python scripts/fast_track_evaluation.py
+```
+
+### Step-by-Step Demo Guide & Video Recording Script
+For detailed step-by-step evaluation or recording a demo video, see [`docs/demo-video-and-judging-guide.md`](docs/demo-video-and-judging-guide.md).
+
+### Step 1: Run Real-World Multi-Platform Pipeline Triage Demo (30 seconds)
+
+```bash
+$env:PYTHONPATH="src"; python examples/realworld_pipeline_triage_demo.py
 ```
 
 **What to look for in the output**:
 - **Event Ingestion**: Notice how a DataHub `MetadataChangeLog` schema change event is ingested.
-- **Evidence Graph Traversal**: 3 downstream lineage nodes are retrieved.
+- **Evidence Graph Traversal**: Multi-platform lineage nodes across Snowflake, dbt, and Looker are retrieved.
 - **Gate Result**: Passes with `100% Citation Resolution`.
-- **Custody Hash Chain**: Outputs a cryptographic SHA-256 receipt hash (`c2a21af6...`) that permanently binds the incident to DataHub.
+- **Custody Hash Chain**: Outputs a cryptographic SHA-256 receipt hash that permanently binds the incident to DataHub.
 
 ---
 
 ### Step 2: Run the LangChain / LangGraph Agent Integration Example (30 seconds)
 
 ```bash
-python examples/langchain_agent_example.py
+$env:PYTHONPATH="src"; python examples/langchain_agent_example.py
 ```
+
 
 **What to look for in the output**:
 - **Scenario A (Uncited Claim Blocked)**: Notice how the agent proposes a claim referencing an unverified entity (`prod.hallucinated_table`). GraphOath's Citation Gate catches this instantly and returns `[X] REJECTED!`, blocking the write call to DataHub.
